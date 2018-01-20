@@ -22,9 +22,17 @@
 
                         <div class="content">
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda at autem commodi, debitis distinctio dolor dolorum error impedit magnam perspiciatis quibusdam quisquam recusandae sequi sit, soluta voluptatibus voluptatum! Temporibus.
-                            <p>
-                                <a href="#" class="subtitle is-4 has-text-success"><i class="fa fa-user-plus" aria-hidden="true"></i></a>
-                            </p>
+                            @if(!$user->findFriendById($user->getId()))
+                                <form method="post" action="{{ route('friends.add') }}">
+                                    {!! csrf_field() !!}
+                                    <p>
+                                        <input name="friend_id" type="hidden" value="{{ $user->getId() }}">
+                                        <button type="submit" href="{{ route('friends.add') }}" class="button subtitle is-4 has-text-success">
+                                            <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                        </button>
+                                    </p>
+                                </form>
+                            @endif
                         </div>
                     </div>
                 </div>

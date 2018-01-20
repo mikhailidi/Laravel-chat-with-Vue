@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -40,6 +41,20 @@ class User extends Authenticatable
     public function friends()
     {
         return $this->myFriends->merge($this->friendOf);
+    }
+
+    /**
+     * Check if you have a friend with id => $id
+     *
+     * @param int $id
+     * @return Friend|null
+     */
+    public function findFriendById($id)
+    {
+        return Friend::where([
+            ['user_id', Auth::user()->getId()],
+            ['friend_id', (int)$id]
+        ])->first();
     }
 
     /**
