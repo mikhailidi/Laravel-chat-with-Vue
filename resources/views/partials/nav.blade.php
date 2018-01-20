@@ -2,7 +2,7 @@
     <div class="container">
         <div class="navbar-brand">
             <a class="navbar-item" href="{{ url('/') }}">
-                <img src="http://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox">
+                <img src="https://starter.someline.com/images/laravel.png" alt="">
             </a>
 
             <div class="navbar-burger burger" data-target="navMenu">
