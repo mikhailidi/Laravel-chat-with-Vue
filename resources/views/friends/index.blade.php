@@ -3,7 +3,7 @@
 @section('content')
     <h1 class="title is-1">Your friends list</h1>
 
-    <div class="columns">
+    <div class="columns is-multiline is-mobile">
         @forelse($friends as $friend)
             <div class="column is-half">
                 <div class="box">
@@ -16,7 +16,7 @@
                         <div class="media-content">
                             <div class="content">
                                 <p>
-                                    <strong>{{ $friend->getName() }}</strong>
+                                    <strong>{{ $friend->getUser()->getName() }}</strong>
                                     <br>
                                     <small>@johnsmith</small>
                                     <small>31m</small>
@@ -34,5 +34,11 @@
         @endforelse
 
     </div>
+
+    @if(count($friends))
+        <div class="columns">
+            {{ $friends->links('partials.paginator') }}
+        </div>
+    @endif
 
 @endsection

@@ -21,5 +21,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => 'auth'], function (){
     Route::get('/friends', 'FriendController@index')->name('friends.index');
+    Route::get('/users', 'HomeController@getAllUsers')->name('users.all');
 });
 

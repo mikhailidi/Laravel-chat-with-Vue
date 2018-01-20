@@ -15,7 +15,10 @@ class FriendController extends Controller
      */
     public function index()
     {
-        $friends = Auth::user()->friends();
+        $friends = Friend::where('user_id', Auth::user()->getId())
+            ->with('user')
+            ->paginate(14);
+
         return view('friends.index', [
             'friends' => $friends
         ]);
