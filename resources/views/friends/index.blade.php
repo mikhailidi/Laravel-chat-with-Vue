@@ -123,11 +123,7 @@
                                             <small>@johnsmith</small>
                                             <small>31m</small>
                                         </p>
-                                        <p>
-                                            <a class="button is-danger"><span class="icon is-small"><i class="fa fa-times"></i></span>
-                                                <span>Cancel</span>
-                                            </a>
-                                        </p>
+                                        <cancel-request friend-id="{{ $outgoingRequest->getToUser()->getId() }}"></cancel-request>
                                     </div>
                                 </div>
                             </article>

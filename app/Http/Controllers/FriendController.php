@@ -120,4 +120,27 @@ class FriendController extends Controller
     {
         //
     }
+
+    /**
+     * @param Request $request
+     * @param int $id
+     *
+     * @return string
+     */
+    public function deleteRequest(Request $request, $id)
+    {
+        $friendRequest = FriendRequest::where([
+            ['from_user', Auth::user()->getId()],
+            ['to_user', (int)$id]
+        ])->first();
+
+        if ($friendRequest) {
+            if ($friendRequest->delete()) {
+                return 'Friend request deleted';
+            }
+        } else {
+            dd('NO FRIEND REQUEST FOUND');
+        }
+
+    }
 }
