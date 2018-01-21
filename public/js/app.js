@@ -11223,13 +11223,19 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(53);
+module.exports = __webpack_require__(54);
 
 
 /***/ }),
 /* 11 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_laroute__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_laroute___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_laroute__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__public_js_laroute__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__public_js_laroute___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__public_js_laroute__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -11241,19 +11247,27 @@ __webpack_require__(12);
 
 window.Vue = __webpack_require__(36);
 
+// Laroute
+
+
+Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_laroute___default.a, {
+  routes: __WEBPACK_IMPORTED_MODULE_1__public_js_laroute___default.a,
+  accessor: '$routes' // Optional: the global variable for accessing the router
+});
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', __webpack_require__(39));
+Vue.component('add-friend', __webpack_require__(41));
 
 var app = new Vue({
   el: '#app'
 });
 
-__webpack_require__(43);
+__webpack_require__(45);
 __webpack_require__(3);
 
 /***/ }),
@@ -45385,12 +45399,242 @@ exports.clearImmediate = clearImmediate;
 /* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+/*!
+ * vue-laroute v0.1.1 
+ * (c) 2017 Sam Turrell
+ * Released under the MIT License.
+ */
+
+
+function plugin (Vue, options) {
+  if ( options === void 0 ) options = {};
+
+  options = Object.assign({
+    accessor: '$routes',
+    routes: {}
+  }, options);
+
+  Vue.prototype[options.accessor] = options.routes;
+}
+
+plugin.version = '0.1.1';
+
+if (typeof window !== 'undefined' && window.Vue) {
+  window.Vue.use(plugin);
+}
+
+module.exports = plugin;
+
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_RESULT__;var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+(function () {
+
+    var laroute = function () {
+
+        var routes = {
+
+            absolute: false,
+            rootUrl: 'http://localhost',
+            routes: [{ "host": null, "methods": ["GET", "HEAD"], "uri": "api\/user", "name": null, "action": "Closure" }, { "host": null, "methods": ["GET", "HEAD"], "uri": "\/", "name": null, "action": "Closure" }, { "host": null, "methods": ["GET", "HEAD"], "uri": "login", "name": "login", "action": "App\Http\Controllers\Auth\LoginController@showLoginForm" }, { "host": null, "methods": ["POST"], "uri": "login", "name": null, "action": "App\Http\Controllers\Auth\LoginController@login" }, { "host": null, "methods": ["POST"], "uri": "logout", "name": "logout", "action": "App\Http\Controllers\Auth\LoginController@logout" }, { "host": null, "methods": ["GET", "HEAD"], "uri": "register", "name": "register", "action": "App\Http\Controllers\Auth\RegisterController@showRegistrationForm" }, { "host": null, "methods": ["POST"], "uri": "register", "name": null, "action": "App\Http\Controllers\Auth\RegisterController@register" }, { "host": null, "methods": ["GET", "HEAD"], "uri": "password\/reset", "name": "password.request", "action": "App\Http\Controllers\Auth\ForgotPasswordController@showLinkRequestForm" }, { "host": null, "methods": ["POST"], "uri": "password\/email", "name": "password.email", "action": "App\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail" }, { "host": null, "methods": ["GET", "HEAD"], "uri": "password\/reset\/{token}", "name": "password.reset", "action": "App\Http\Controllers\Auth\ResetPasswordController@showResetForm" }, { "host": null, "methods": ["POST"], "uri": "password\/reset", "name": null, "action": "App\Http\Controllers\Auth\ResetPasswordController@reset" }, { "host": null, "methods": ["GET", "HEAD"], "uri": "home", "name": "home", "action": "App\Http\Controllers\HomeController@index" }, { "host": null, "methods": ["GET", "HEAD"], "uri": "friends", "name": "friends.index", "action": "App\Http\Controllers\FriendController@index" }, { "host": null, "methods": ["POST"], "uri": "friends\/add\/{id}", "name": "friends.add", "action": "App\Http\Controllers\FriendController@store" }, { "host": null, "methods": ["POST"], "uri": "friends\/delete\/{id}", "name": "friends.delete", "action": "App\Http\Controllers\FriendController@remove" }, { "host": null, "methods": ["GET", "HEAD"], "uri": "users", "name": "users.all", "action": "App\Http\Controllers\HomeController@getAllUsers" }],
+            prefix: '',
+
+            route: function route(name, parameters, _route) {
+                _route = _route || this.getByName(name);
+
+                if (!_route) {
+                    return undefined;
+                }
+
+                return this.toRoute(_route, parameters);
+            },
+
+            url: function url(_url, parameters) {
+                parameters = parameters || [];
+
+                var uri = _url + '/' + parameters.join('/');
+
+                return this.getCorrectUrl(uri);
+            },
+
+            toRoute: function toRoute(route, parameters) {
+                var uri = this.replaceNamedParameters(route.uri, parameters);
+                var qs = this.getRouteQueryString(parameters);
+
+                if (this.absolute && this.isOtherHost(route)) {
+                    return "//" + route.host + "/" + uri + qs;
+                }
+
+                return this.getCorrectUrl(uri + qs);
+            },
+
+            isOtherHost: function isOtherHost(route) {
+                return route.host && route.host != window.location.hostname;
+            },
+
+            replaceNamedParameters: function replaceNamedParameters(uri, parameters) {
+                uri = uri.replace(/\{(.*?)\??\}/g, function (match, key) {
+                    if (parameters.hasOwnProperty(key)) {
+                        var value = parameters[key];
+                        delete parameters[key];
+                        return value;
+                    } else {
+                        return match;
+                    }
+                });
+
+                // Strip out any optional parameters that were not given
+                uri = uri.replace(/\/\{.*?\?\}/g, '');
+
+                return uri;
+            },
+
+            getRouteQueryString: function getRouteQueryString(parameters) {
+                var qs = [];
+                for (var key in parameters) {
+                    if (parameters.hasOwnProperty(key)) {
+                        qs.push(key + '=' + parameters[key]);
+                    }
+                }
+
+                if (qs.length < 1) {
+                    return '';
+                }
+
+                return '?' + qs.join('&');
+            },
+
+            getByName: function getByName(name) {
+                for (var key in this.routes) {
+                    if (this.routes.hasOwnProperty(key) && this.routes[key].name === name) {
+                        return this.routes[key];
+                    }
+                }
+            },
+
+            getByAction: function getByAction(action) {
+                for (var key in this.routes) {
+                    if (this.routes.hasOwnProperty(key) && this.routes[key].action === action) {
+                        return this.routes[key];
+                    }
+                }
+            },
+
+            getCorrectUrl: function getCorrectUrl(uri) {
+                var url = this.prefix + '/' + uri.replace(/^\/?/, '');
+
+                if (!this.absolute) {
+                    return url;
+                }
+
+                return this.rootUrl.replace('/\/?$/', '') + url;
+            }
+        };
+
+        var getLinkAttributes = function getLinkAttributes(attributes) {
+            if (!attributes) {
+                return '';
+            }
+
+            var attrs = [];
+            for (var key in attributes) {
+                if (attributes.hasOwnProperty(key)) {
+                    attrs.push(key + '="' + attributes[key] + '"');
+                }
+            }
+
+            return attrs.join(' ');
+        };
+
+        var getHtmlLink = function getHtmlLink(url, title, attributes) {
+            title = title || url;
+            attributes = getLinkAttributes(attributes);
+
+            return '<a href="' + url + '" ' + attributes + '>' + title + '</a>';
+        };
+
+        return {
+            // Generate a url for a given controller action.
+            // laroute.action('HomeController@getIndex', [params = {}])
+            action: function action(name, parameters) {
+                parameters = parameters || {};
+
+                return routes.route(name, parameters, routes.getByAction(name));
+            },
+
+            // Generate a url for a given named route.
+            // laroute.route('routeName', [params = {}])
+            route: function route(_route2, parameters) {
+                parameters = parameters || {};
+
+                return routes.route(_route2, parameters);
+            },
+
+            // Generate a fully qualified URL to the given path.
+            // laroute.route('url', [params = {}])
+            url: function url(route, parameters) {
+                parameters = parameters || {};
+
+                return routes.url(route, parameters);
+            },
+
+            // Generate a html link to the given url.
+            // laroute.link_to('foo/bar', [title = url], [attributes = {}])
+            link_to: function link_to(url, title, attributes) {
+                url = this.url(url);
+
+                return getHtmlLink(url, title, attributes);
+            },
+
+            // Generate a html link to the given route.
+            // laroute.link_to_route('route.name', [title=url], [parameters = {}], [attributes = {}])
+            link_to_route: function link_to_route(route, title, parameters, attributes) {
+                var url = this.route(route, parameters);
+
+                return getHtmlLink(url, title, attributes);
+            },
+
+            // Generate a html link to the given controller action.
+            // laroute.link_to_action('HomeController@getIndex', [title=url], [parameters = {}], [attributes = {}])
+            link_to_action: function link_to_action(action, title, parameters, attributes) {
+                var url = this.action(action, parameters);
+
+                return getHtmlLink(url, title, attributes);
+            }
+
+        };
+    }.call(this);
+
+    /**
+     * Expose the class either via AMD, CommonJS or the global object
+     */
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_RESULT__ = (function () {
+            return laroute;
+        }).call(exports, __webpack_require__, exports, module),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else if ((typeof module === "undefined" ? "undefined" : _typeof(module)) === 'object' && module.exports) {
+        module.exports = laroute;
+    } else {
+        window.laroute = laroute;
+    }
+}).call(this);
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var disposed = false
-var normalizeComponent = __webpack_require__(40)
+var normalizeComponent = __webpack_require__(42)
 /* script */
-var __vue_script__ = __webpack_require__(41)
+var __vue_script__ = __webpack_require__(43)
 /* template */
-var __vue_template__ = __webpack_require__(42)
+var __vue_template__ = __webpack_require__(44)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -45407,7 +45651,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/ExampleComponent.vue"
+Component.options.__file = "resources/assets/js/components/Friends/AddFriendComponent.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -45416,9 +45660,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7168fb6a", Component.options)
+    hotAPI.createRecord("data-v-36c98b6f", Component.options)
   } else {
-    hotAPI.reload("data-v-7168fb6a", Component.options)
+    hotAPI.reload("data-v-36c98b6f", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -45429,7 +45673,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 40 */
+/* 42 */
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -45538,7 +45782,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 41 */
+/* 43 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -45552,79 +45796,88 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    mounted: function mounted() {
-        console.log('Component mounted.');
+    props: ['friendId'],
+    data: function data() {
+        return {
+            button: 'button is-success',
+            buttonText: 'Add friend',
+            icon: 'fa fa-user-plus'
+        };
+    },
+    methods: {
+        addFriend: function addFriend() {
+            var _this = this;
+
+            this.button += ' is-loading';
+            axios.post(this.$routes.route('friends.add', { id: this.friendId })).then(function (response) {
+                if (response.status == 200) {
+                    _this.button = _this.button.replace('is-loading', 'is-static');
+                    _this.icon = _this.icon.replace('fa-user-plus', 'fa-vcard-o');
+                    _this.buttonText = 'Request sent';
+                }
+            });
+        }
     }
 });
 
 /***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("p", [
+    _c(
+      "a",
+      {
+        class: _vm.button,
+        on: {
+          click: function($event) {
+            $event.preventDefault()
+            _vm.addFriend($event)
+          }
+        }
+      },
+      [
+        _c("span", { staticClass: "icon is-small" }, [
+          _c("i", { class: _vm.icon, attrs: { "aria-hidden": "true" } })
+        ]),
+        _vm._v(" "),
+        _c("span", [_vm._v(" " + _vm._s(_vm.buttonText))])
+      ]
+    )
+  ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
-          _c("div", { staticClass: "panel panel-default" }, [
-            _c("div", { staticClass: "panel-heading" }, [
-              _vm._v("Example Component")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "panel-body" }, [
-              _vm._v(
-                "\n                    I'm an example component!\n                "
-              )
-            ])
-          ])
-        ])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-7168fb6a", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-36c98b6f", module.exports)
   }
 }
 
 /***/ }),
-/* 43 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-__webpack_require__(44);
-__webpack_require__(45);
 __webpack_require__(46);
 __webpack_require__(47);
 __webpack_require__(48);
 __webpack_require__(49);
 __webpack_require__(50);
 __webpack_require__(51);
+__webpack_require__(52);
+__webpack_require__(53);
 
 /***/ }),
-/* 44 */
+/* 46 */
 /***/ (function(module, exports) {
 
 let accordions = document.querySelectorAll('.accordions');
@@ -45651,7 +45904,7 @@ if (accordions) {
 
 
 /***/ }),
-/* 45 */
+/* 47 */
 /***/ (function(module, exports) {
 
 var datepicker_langs = {
@@ -46136,7 +46389,7 @@ class DatePicker {
 
 
 /***/ }),
-/* 46 */
+/* 48 */
 /***/ (function(module, exports) {
 
 class Carousel {
@@ -46231,7 +46484,7 @@ window.onload = function() {
 
 
 /***/ }),
-/* 47 */
+/* 49 */
 /***/ (function(module, exports) {
 
 let fetchStyle = function(url) {
@@ -46488,7 +46741,7 @@ if (iconPickers) {
 
 
 /***/ }),
-/* 48 */
+/* 50 */
 /***/ (function(module, exports) {
 
 function closest(el, selector) {
@@ -46545,7 +46798,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 
 
 /***/ }),
-/* 49 */
+/* 51 */
 /***/ (function(module, exports) {
 
 // Find output DOM associated to the DOM element passed as parameter
@@ -46622,7 +46875,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 
 
 /***/ }),
-/* 50 */
+/* 52 */
 /***/ (function(module, exports) {
 
 class StepsWizard {
@@ -46826,7 +47079,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 
 
 /***/ }),
-/* 51 */
+/* 53 */
 /***/ (function(module, exports) {
 
 class Tagify {
@@ -47136,8 +47389,7 @@ if (tagInputs) {
 
 
 /***/ }),
-/* 52 */,
-/* 53 */
+/* 54 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

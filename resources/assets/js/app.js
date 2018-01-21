@@ -9,13 +9,21 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+// Laroute
+import VueLaroute from 'vue-laroute';
+import routes from '../../../public/js/laroute';
+Vue.use(VueLaroute, {
+    routes,
+    accessor: '$routes', // Optional: the global variable for accessing the router
+});
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('add-friend', require('./components/Friends/AddFriendComponent.vue'));
 
 const app = new Vue({
     el: '#app'

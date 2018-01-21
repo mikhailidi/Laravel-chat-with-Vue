@@ -51,7 +51,7 @@ class FriendController extends Controller
      * @param int $id Friend id which we should add
      *
      * @throws \Exception If user_id == friend_id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|string
      */
     public function store(Request $request, $id)
     {
@@ -67,6 +67,9 @@ class FriendController extends Controller
         ]);
 
         if ($friendRequest->save()) {
+            if($request->ajax()){
+                return "Successfully added";
+            }
             return redirect()->back();
         } else {
             dd('ERROR WHILE SAVING DATA');

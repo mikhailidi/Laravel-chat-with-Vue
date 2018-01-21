@@ -23,19 +23,11 @@
                                 <p>
                                     <a class="button is-static">
                                         <span class="icon is-small"><i class="fa fa-vcard-o"></i></span>
-                                        <span>Friend request sent</span>
+                                        <span>Request sent</span>
                                     </a>
                                 </p>
                             @elseif(!$user->checkFriendById($user->getId()))
-                                <form id="add-friend-form" method="post" action="{{ route('friends.add', $user->getId()) }}">
-                                    {!! csrf_field() !!}
-                                    <p>
-                                        <a class="button is-success" onclick="sendFriendRequest(this)">
-                                            <span class="icon is-small"><i class="fa fa-user-plus" aria-hidden="true"></i></span>
-                                            <span>Add friend</span>
-                                        </a>
-                                    </p>
-                                </form>
+                                <add-friend friend-id="{{ $user->getId() }}"></add-friend>
                             @else
                                 <p>
                                     <a class="button is-static">
