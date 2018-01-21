@@ -20,6 +20,11 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => 'auth'], function (){
-    Route::get('/friends', 'FriendController@index')->name('friends.index');
+    Route::group(['prefix' => 'friends'], function (){
+        Route::get('/', 'FriendController@index')->name('friends.index');
+        Route::post('/add/{id}', 'FriendController@store')->name('friends.add');
+        Route::post('/delete/{id}', 'FriendController@remove')->name('friends.delete');
+    });
+    Route::get('/users', 'HomeController@getAllUsers')->name('users.all');
 });
 

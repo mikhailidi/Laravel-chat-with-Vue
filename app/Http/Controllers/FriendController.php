@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Friend;
+use App\FriendRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,9 +16,21 @@ class FriendController extends Controller
      */
     public function index()
     {
-        $friends = Auth::user()->friends();
+        $userId = Auth::user()->getId();
+        $friends = Friend::where('user_id', $userId)
+            ->with('user')
+            ->paginate(14);
+
+        $friendRequests = FriendRequest::where('to_user', $userId)
+            ->paginate(14);
+
+        $outgoingRequests = FriendRequest::where('from_user', $userId)
+            ->paginate(14);
+
         return view('friends.index', [
-            'friends' => $friends
+            'friends' => $friends,
+            'friendRequests' => $friendRequests,
+            'outgoingRequests' => $outgoingRequests
         ]);
     }
 
@@ -35,11 +48,32 @@ class FriendController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param int $id Friend id which we should add
+     *
+     * @throws \Exception If user_id == friend_id
+     * @return \Illuminate\Http\Response|string
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        $id = (int)$id;
+
+        if ($id == Auth::user()->getId()) {
+            throw new \Exception('You can not add yourself to your friends list');
+        }
+
+        $friendRequest = new FriendRequest([
+            'from_user' => Auth::user()->getId(),
+            'to_user' => $id
+        ]);
+
+        if ($friendRequest->save()) {
+            if($request->ajax()){
+                return "Successfully added";
+            }
+            return redirect()->back();
+        } else {
+            dd('ERROR WHILE SAVING DATA');
+        }
     }
 
     /**

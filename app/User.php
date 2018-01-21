@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -43,6 +44,32 @@ class User extends Authenticatable
     }
 
     /**
+     * Check if you have a friend with id => $id
+     *
+     * @param int $id
+     * @return Friend|null
+     */
+    public function checkFriendById($id)
+    {
+        return Friend::where([
+            ['user_id', Auth::user()->getId()],
+            ['friend_id', (int)$id]
+        ])->first();
+    }
+
+    /**
+     * @param $userId
+     * @return FriendRequest|null
+     */
+    public function checkOutgoingFriendRequest($userId)
+    {
+        return FriendRequest::where([
+            ['from_user', Auth::user()->getId()],
+            ['to_user', (int)$userId]
+        ])->first();
+    }
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -76,6 +103,25 @@ class User extends Authenticatable
     public function setName($name)
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     * @return User
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
 
         return $this;
     }
