@@ -23,7 +23,9 @@ Vue.use(VueLaroute, {
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+// FRIENDS
 Vue.component('add-friend', require('./components/Friends/AddFriendComponent.vue'));
+Vue.component('cancel-request', require('./components/Friends/CancelRequestComponent.vue'));
 
 const app = new Vue({
     el: '#app'
