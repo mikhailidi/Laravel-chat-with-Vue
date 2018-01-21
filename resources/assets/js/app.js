@@ -23,3 +23,4 @@ const app = new Vue({
 
 
 require('./bulma-extensions');
+require('jquery');

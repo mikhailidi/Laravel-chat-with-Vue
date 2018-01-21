@@ -49,11 +49,23 @@ class User extends Authenticatable
      * @param int $id
      * @return Friend|null
      */
-    public function findFriendById($id)
+    public function checkFriendById($id)
     {
         return Friend::where([
             ['user_id', Auth::user()->getId()],
             ['friend_id', (int)$id]
+        ])->first();
+    }
+
+    /**
+     * @param $userId
+     * @return FriendRequest|null
+     */
+    public function checkOutgoingFriendRequest($userId)
+    {
+        return FriendRequest::where([
+            ['from_user', Auth::user()->getId()],
+            ['to_user', (int)$userId]
         ])->first();
     }
 

@@ -6,51 +6,61 @@
     <div class="columns is-multiline is-mobile">
         @forelse($users as $user)
             <div class="column is-4">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="media">
-                            <div class="media-left">
-                                <figure class="image is-64x64">
-                                    <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                                </figure>
-                            </div>
-                            <div class="media-content">
-                                <p class="title is-4">{{ $user->getName() }}</p>
-                                <p class="subtitle is-6">@johnsmith</p>
-                            </div>
+                <div class="box">
+                    <article class="media">
+                        <div class="media-left">
+                            <figure class="image is-96x96">
+                                <img src="https://bulma.io/images/placeholders/96x96.png" alt="Image">
+                            </figure>
                         </div>
-
-                        <div class="content">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda at autem commodi, debitis distinctio dolor dolorum error impedit magnam perspiciatis quibusdam quisquam recusandae sequi sit, soluta voluptatibus voluptatum! Temporibus.
-                            @if(!$user->findFriendById($user->getId()))
-                                <form method="post" action="{{ route('friends.add') }}">
+                        <div class="media-content">
+                            <p>
+                                <strong>{{ $user->getName() }}</strong>
+                                <br>
+                                <small>@johnsmith</small>
+                            </p>
+                            @if($user->checkOutgoingFriendRequest($user->getId()))
+                                <p>
+                                    <a class="button is-static">
+                                        <span class="icon is-small"><i class="fa fa-vcard-o"></i></span>
+                                        <span>Friend request sent</span>
+                                    </a>
+                                </p>
+                            @elseif(!$user->checkFriendById($user->getId()))
+                                <form id="add-friend-form" method="post" action="{{ route('friends.add', $user->getId()) }}">
                                     {!! csrf_field() !!}
                                     <p>
-                                        <input name="friend_id" type="hidden" value="{{ $user->getId() }}">
-                                        <button type="submit" href="{{ route('friends.add') }}" class="button subtitle is-4 has-text-success">
-                                            <i class="fa fa-user-plus" aria-hidden="true"></i>
-                                        </button>
+                                        <a class="button is-success" onclick="sendFriendRequest(this)">
+                                            <span class="icon is-small"><i class="fa fa-user-plus" aria-hidden="true"></i></span>
+                                            <span>Add friend</span>
+                                        </a>
                                     </p>
                                 </form>
+                            @else
+                                <p>
+                                    <a class="button is-static">
+                                        <span class="icon is-small"><i class="fa fa-handshake-o"></i></span>
+                                        <span>You are friends</span>
+                                    </a>
+                                </p>
                             @endif
                         </div>
-                    </div>
+                    </article>
                 </div>
             </div>
         @empty
             <div class="column">
-                <h2 class="subtitle is-2 has-text-centered">You don't have friends yet</h2>
+                <h2 class="subtitle is-2 has-text-centered">Looks like we don't have users yet</h2>
             </div>
-
         @endforelse
-    </div>
-
-
-
-    @if(count($users))
-        <div class="columns">
-            {{ $users->links('partials.paginator') }}
         </div>
+
+
+
+            @if(count($users))
+                <div class="columns">
+                    {{ $users->links('partials.paginator') }}
+                </div>
     @endif
 
 @endsection
