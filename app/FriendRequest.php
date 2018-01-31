@@ -30,4 +30,16 @@ class FriendRequest extends Model
         return $this->toUser;
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = (int)$id;
+
+        return $this;
+    }
+
 }

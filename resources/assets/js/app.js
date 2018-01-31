@@ -26,6 +26,7 @@ Vue.use(VueLaroute, {
 // FRIENDS
 Vue.component('add-friend', require('./components/Friends/AddFriendComponent.vue'));
 Vue.component('cancel-request', require('./components/Friends/CancelRequestComponent.vue'));
+Vue.component('confirm-request', require('./components/Friends/ConfirmRequestComponent.vue'));
 
 const app = new Vue({
     el: '#app'
