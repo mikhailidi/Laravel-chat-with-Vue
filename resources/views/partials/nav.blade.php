@@ -16,7 +16,7 @@
             <div class="navbar-end">
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
-                        Account
+                        {{ Auth::user()->getUserName() }}
                     </a>
 
                     <div class="navbar-dropdown">
@@ -29,7 +29,6 @@
                         <a class="navbar-item">
                             Components
                         </a>
-                        @if(Auth::user())
                         <hr class="navbar-divider">
                         <div class="navbar-item">
                             <a href="{{ route('logout') }}"
@@ -40,7 +39,6 @@
                                 {{ csrf_field() }}
                             </form>
                         </div>
-                            @endif
                     </div>
                 </div>
             </div>

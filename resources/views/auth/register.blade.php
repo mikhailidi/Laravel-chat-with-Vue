@@ -1,77 +1,119 @@
-@extends('layouts.app')
-
+@extends('layouts.login')
+@section('title', 'Registration Form')
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
+    <section class="hero is-success is-fullheight">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <div class="column is-4 is-offset-4">
+                    <h3 class="title has-text-grey">Registration</h3>
+                    <p class="subtitle has-text-grey">Please register new account to have an access to our features</p>
+                    <div class="box" style="margin-top: 0;">
+                        <form id="registration-form" method="POST" action="{{ route('register') }}" data-parsley-validate="">
+                            {{ csrf_field() }}
 
-                <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('register') }}">
-                        {{ csrf_field() }}
-
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
-
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
+                            <div class="field">
+                                <div class="control">
+                                    <input id="first_name" name="first_name" value="{{ old('first_name') }}" class="input is-large"
+                                           type="text" placeholder="First Name" autofocus=""
+                                           maxlength="20" required>
+                                    @if ($errors->has('first_name'))
+                                        <span class="help-block has-text-danger">
+                                        <strong>{{ $errors->first('first_name') }}</strong>
                                     </span>
-                                @endif
+                                    @endif
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                            <div class="field">
+                                <div class="control">
+                                    <input id="last_name" name="last_name" value="{{ old('last_name') }}" class="input is-large"
+                                           type="text" placeholder="Last Name"
+                                           maxlength="36" required>
+                                    @if ($errors->has('last_name'))
+                                        <span class="help-block has-text-danger">
+                                        <strong>{{ $errors->first('last_name') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
 
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
+                            <div class="field">
+                                <div class="control">
+                                    <input id="email" name="email" value="{{ old('email') }}" class="input is-large"
+                                           type="email" placeholder="Your Email"
+                                           data-parsley-type="email" required>
+                                    @if ($errors->has('email'))
+                                        <span class="help-block has-text-danger">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
-                                @endif
+                                    @endif
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
+                            <div class="field">
+                                <div class="control">
+                                    <input id="username" name="username" value="{{ old('username') }}" class="input is-large"
+                                           type="text" placeholder="@username('username (optional)')" maxlength="59">
+                                    {{--{{ dump($errors) }}--}}
+                                    @if ($errors->has('username'))
+                                        <span class="help-block has-text-danger">
+                                        <strong>{{ $errors->first('username') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
+                            <div class="field">
+                                <div class="control">
+                                    <input id="password" name="password" required class="input is-large" type="password"
+                                           placeholder="Your Password">
+                                    @if ($errors->has('password'))
+                                        <span class="help-block has-text-danger">
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
-                                @endif
+                                    @endif
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                            <div class="field">
+                                <div class="control">
+                                    <input id="password-confirm" name="password_confirmation" class="input is-large" type="password"
+                                           placeholder="Confirm password"
+                                           data-parsley-equalto="#password" required>
+                                    @if ($errors->has('confirm-password'))
+                                        <span class="help-block has-text-danger">
+                                        <strong>{{ $errors->first('confirm-password') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Register
-                                </button>
+                            <div class="field">
+                                <div class="control">
+                                    {!! app('captcha')->display() !!}
+                                    @if ($errors->has('g-recaptcha-response'))
+                                        <span class="help-block has-text-danger">
+                                        <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                            <button type="submit" class="button is-block is-info is-large is-centered">Register</button>
+                        </form>
+                    </div>
+                    <p class="has-text-grey">
+                        Have an account ? <a class="has-text-link" href="{{ route('login') }}">Sign In</a>
+                    </p>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
+    <script type="text/javascript">
+        $(function () {
+            $('#registration-form').parsley().on('field:validated', function() {
+                var ok = $('.parsley-error').length === 0;
+                $('.bs-callout-info').toggleClass('hidden', !ok);
+                $('.bs-callout-warning').toggleClass('hidden', ok);
+            });
+        });
+    </script>
 @endsection

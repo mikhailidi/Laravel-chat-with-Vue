@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'username','first_name', 'last_name', 'avatar', 'email', 'password',
     ];
 
     /**
@@ -89,23 +89,13 @@ class User extends Authenticatable
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getName()
+    public function getFullName()
     {
-        return $this->name;
+        return $this->first_name . ' ' . $this->last_name;
     }
 
-    /**
-     * @param mixed $name
-     * @return User
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
 
     /**
      * @return mixed
@@ -159,6 +149,82 @@ class User extends Authenticatable
     public function setRememberToken($rememberToken)
     {
         $this->remember_token = $rememberToken;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->first_name;
+    }
+
+    /**
+     * @param string $firstName
+     * @return User
+     */
+    public function setFirstName($firstName)
+    {
+        $this->first_name = (string)$firstName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->last_name;
+    }
+
+    /**
+     * @param string $lastName
+     * @return User
+     */
+    public function setLastName($lastName)
+    {
+        $this->last_name = (string)$lastName;
+
+        return $this;
+    }
+    /**
+     * @return string
+     */
+    public function getUserName()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @param string $username
+     * @return User
+     */
+    public function setUserName($username)
+    {
+        $this->username = (string)$username;
+
+        return $this;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @param string $avatar
+     * @return User
+     */
+    public function setAvatar($avatar)
+    {
+        $this->avatar = (string)$avatar;
 
         return $this;
     }

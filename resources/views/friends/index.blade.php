@@ -24,9 +24,9 @@
                                 <div class="media-content">
                                     <div class="content">
                                         <p>
-                                            <strong>{{ $friend->getUser()->getName() }}</strong>
+                                            <strong>{{ $friend->getUser()->getFullName() }}</strong>
                                             <br>
-                                            <small>@johnsmith</small>
+                                            <small>{{ $friend->getUser()->getUserName() }}</small>
                                             <small>31m</small>
                                         </p>
                                         <p>
@@ -70,9 +70,9 @@
                                 <div class="media-content">
                                     <div class="content">
                                         <p>
-                                            <strong>{{ $friendRequest->getFromUser()->getName() }}</strong>
+                                            <strong>{{ $friendRequest->getFromUser()->getFullName() }}</strong>
                                             <br>
-                                            <small>@johnsmith</small>
+                                            <small>{{ $friendRequest->getFromUser()->getUserName() }}</small>
                                             <small>31m</small>
                                         </p>
                                         <p>
@@ -114,9 +114,9 @@
                                 <div class="media-content">
                                     <div class="content">
                                         <p>
-                                            <strong>{{ $outgoingRequest->getToUser()->getName() }}</strong>
+                                            <strong>{{ $outgoingRequest->getToUser()->getFullName() }}</strong>
                                             <br>
-                                            <small>@johnsmith</small>
+                                            <small>{{ $outgoingRequest->getToUser()->getUserName() }}</small>
                                             <small>31m</small>
                                         </p>
                                         <p>
