@@ -15,9 +15,9 @@
                         </div>
                         <div class="media-content">
                             <p>
-                                <strong>{{ $user->getName() }}</strong>
+                                <strong>{{ $user->getFullName() }}</strong>
                                 <br>
-                                <small>@johnsmith</small>
+                                <small>@username($user->getUserName())</small>
                             </p>
                             @if($user->checkOutgoingFriendRequest($user->getId()))
                                 <p>
