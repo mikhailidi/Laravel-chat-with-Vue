@@ -121,6 +121,28 @@ class FriendController extends Controller
         //
     }
 
+    public function acceptRequest(Request $request, $id)
+    {
+        $friendRequest = FriendRequest::find($id);
+
+        if ($friendRequest) {
+            $friend1 = new Friend([
+                'user_id' => Auth::user()->getId(),
+                'friend_id' => $friendRequest->getFromUser()->getId()
+            ]);
+
+            $friend2 = new Friend([
+                'user_id' => $friendRequest->getFromUser()->getId(),
+                'friend_id' => Auth::user()->getId()
+            ]);
+
+            if ($friend1->save() && $friend2->save()) {
+                $friendRequest->delete();
+                return response()->json(['status' => 'friend.added']);
+            }
+        }
+    }
+
     /**
      * @param Request $request
      * @param int $id
@@ -129,10 +151,7 @@ class FriendController extends Controller
      */
     public function deleteRequest(Request $request, $id)
     {
-        $friendRequest = FriendRequest::where([
-            ['from_user', Auth::user()->getId()],
-            ['to_user', (int)$id]
-        ])->first();
+        $friendRequest = FriendRequest::find($id);
 
         if ($friendRequest) {
             if ($friendRequest->delete()) {

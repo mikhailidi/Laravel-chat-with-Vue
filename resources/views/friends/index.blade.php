@@ -76,12 +76,8 @@
                                             <small>31m</small>
                                         </p>
                                         <p>
-                                            <a class="button is-success"><span class="icon is-small"><i class="fa fa-check"></i></span>
-                                                <span>Confirm</span>
-                                            </a>
-                                            <a class="button is-danger"><span class="icon is-small"><i class="fa fa-times"></i></span>
-                                                <span>Cancel</span>
-                                            </a>
+                                            <confirm-request id="{{ $friendRequest->getId() }}"></confirm-request>
+                                            <cancel-request id="{{ $friendRequest->getId() }}"></cancel-request>
                                         </p>
                                     </div>
                                 </div>
@@ -123,7 +119,9 @@
                                             <small>@johnsmith</small>
                                             <small>31m</small>
                                         </p>
-                                        <cancel-request friend-id="{{ $outgoingRequest->getToUser()->getId() }}"></cancel-request>
+                                        <p>
+                                            <cancel-request id="{{ $outgoingRequest->getId() }}"></cancel-request>
+                                        </p>
                                     </div>
                                 </div>
                             </article>
