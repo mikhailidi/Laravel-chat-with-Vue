@@ -26,6 +26,10 @@ Route::group(['middleware' => 'auth'], function (){
         Route::post('/requests/delete/{id}', 'FriendController@deleteRequest')->name('friends.requests.delete');
         Route::post('/requests/confirm/{id}', 'FriendController@acceptRequest')->name('friends.requests.accept');
     });
+    Route::group(['prefix' => 'profile'], function (){
+        Route::get('/', 'UserController@index')->name('profile.index');
+    });
+
     Route::get('/users', 'HomeController@getAllUsers')->name('users.all');
 });
 

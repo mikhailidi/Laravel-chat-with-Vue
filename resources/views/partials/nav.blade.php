@@ -16,12 +16,12 @@
             <div class="navbar-end">
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
-                        {{ Auth::user()->getUserName() }}
+                        @username(Auth::user()->getUserName())
                     </a>
 
                     <div class="navbar-dropdown">
-                        <a class="navbar-item">
-                            Overview
+                        <a class="navbar-item" href="{{ route('profile.index') }}">
+                            Profile
                         </a>
                         <a class="navbar-item">
                             Elements
