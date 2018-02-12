@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username','first_name', 'last_name', 'avatar', 'email', 'password',
+        'username', 'first_name', 'last_name', 'avatar', 'email', 'password',
     ];
 
     /**
@@ -30,12 +30,12 @@ class User extends Authenticatable
 
     public function myFriends()
     {
-        return $this->belongsToMany('App\User', 'friends', 'user_id', 'friend_id');
+        return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id');
     }
 
     public function friendOf()
     {
-        return $this->belongsToMany('App\User', 'friends', 'friend_id', 'user_id');
+        return $this->belongsToMany(User::class, 'friends', 'friend_id', 'user_id');
     }
 
     public function friends()
@@ -190,6 +190,7 @@ class User extends Authenticatable
 
         return $this;
     }
+
     /**
      * @return string
      */
