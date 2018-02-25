@@ -1,8 +1,9 @@
 <?php
 
-namespace App;
+namespace Modules\Friend\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\User\Models\User;
 
 class FriendRequest extends Model
 {

@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Modules\Friend\Http\Controllers;
 
-use App\Friend;
-use App\FriendRequest;
+use App\Http\Controllers\Controller;
+use Modules\Friend\Models\Friend;
+use Modules\Friend\Models\FriendRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,7 +28,7 @@ class FriendController extends Controller
         $outgoingRequests = FriendRequest::where('from_user', $userId)
             ->paginate(14);
 
-        return view('friends.index', [
+        return view('friend::index', [
             'friends' => $friends,
             'friendRequests' => $friendRequests,
             'outgoingRequests' => $outgoingRequests
@@ -79,7 +80,7 @@ class FriendController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Friend  $friend
+     * @param  Friend  $friend
      * @return \Illuminate\Http\Response
      */
     public function show(Friend $friend)
@@ -90,7 +91,7 @@ class FriendController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Friend  $friend
+     * @param  Friend $friend
      * @return \Illuminate\Http\Response
      */
     public function edit(Friend $friend)
@@ -102,7 +103,7 @@ class FriendController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Friend  $friend
+     * @param  Friend  $friend
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Friend $friend)
@@ -113,7 +114,7 @@ class FriendController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Friend  $friend
+     * @param  Friend  $friend
      * @return \Illuminate\Http\Response
      */
     public function destroy(Friend $friend)
