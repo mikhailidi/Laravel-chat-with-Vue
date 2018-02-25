@@ -27,14 +27,4 @@ class HomeController extends Controller
     {
         return view('home');
     }
-
-    public function getAllUsers()
-    {
-        $users = User::where('id', '!=', Auth::user()->getId())
-            ->paginate(14);
-
-        return view('friends.all', [
-            'users' => $users
-        ]);
-    }
 }

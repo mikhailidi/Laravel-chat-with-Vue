@@ -19,17 +19,3 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['middleware' => 'auth'], function (){
-    Route::group(['prefix' => 'friends'], function (){
-        Route::get('/', 'FriendController@index')->name('friends.index');
-        Route::post('/add/{id}', 'FriendController@store')->name('friends.add');
-        Route::post('/requests/delete/{id}', 'FriendController@deleteRequest')->name('friends.requests.delete');
-        Route::post('/requests/confirm/{id}', 'FriendController@acceptRequest')->name('friends.requests.accept');
-    });
-    Route::group(['prefix' => 'profile'], function (){
-        Route::get('/', 'UserController@index')->name('profile.index');
-    });
-
-    Route::get('/users', 'HomeController@getAllUsers')->name('users.all');
-});
-

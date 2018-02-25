@@ -1,10 +1,12 @@
 <?php
 
-namespace App;
+namespace Modules\User\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
+use Modules\Friend\Models\Friend;
+use Modules\Friend\Models\FriendRequest;
 
 class User extends Authenticatable
 {
