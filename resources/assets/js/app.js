@@ -8,6 +8,9 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+import Buefy from 'buefy'
+
+Vue.use(Buefy);
 
 // Laroute
 import VueLaroute from 'vue-laroute';
@@ -24,9 +27,9 @@ Vue.use(VueLaroute, {
  */
 
 // FRIENDS
-Vue.component('add-friend', require('./components/Friends/AddFriendComponent.vue'));
-Vue.component('cancel-request', require('./components/Friends/CancelRequestComponent.vue'));
-Vue.component('confirm-request', require('./components/Friends/ConfirmRequestComponent.vue'));
+Vue.component('add-friend', require('../../../Modules/Friend/Resources/assets/js/components/AddFriendComponent.vue'));
+Vue.component('cancel-request', require('../../../Modules/Friend/Resources/assets/js/components/CancelRequestComponent.vue'));
+Vue.component('confirm-request', require('../../../Modules/Friend/Resources/assets/js/components/ConfirmRequestComponent.vue'));
 
 const app = new Vue({
     el: '#app'
