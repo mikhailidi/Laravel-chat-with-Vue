@@ -30,6 +30,7 @@ Vue.use(VueLaroute, {
 Vue.component('add-friend', require('../../../Modules/Friend/Resources/assets/js/components/AddFriendComponent.vue'));
 Vue.component('cancel-request', require('../../../Modules/Friend/Resources/assets/js/components/CancelRequestComponent.vue'));
 Vue.component('confirm-request', require('../../../Modules/Friend/Resources/assets/js/components/ConfirmRequestComponent.vue'));
+Vue.component('chat', require('../../../Modules/Chat/Resources/assets/js/components/Chat.vue'));
 
 const app = new Vue({
     el: '#app'

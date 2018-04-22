@@ -215,6 +215,7 @@
 
         #chat-area {
             max-height: 38rem;
+            min-height: 38rem;
             overflow: auto;
         }
 
