@@ -5,6 +5,7 @@ namespace Modules\User\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
+use Modules\Chat\Models\Message;
 use Modules\Friend\Models\Friend;
 use Modules\Friend\Models\FriendRequest;
 
@@ -45,6 +46,10 @@ class User extends Authenticatable
         return $this->myFriends->merge($this->friendOf);
     }
 
+    public function message()
+    {
+        return $this->belongsToMany(Message::class);
+    }
     /**
      * Check if you have a friend with id => $id
      *

@@ -12,16 +12,27 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('style')
+    <style>
+        .hero.is-fullheight {
+            min-height: 91vh;
+        }
+        body {
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body>
-@include('partials.nav')
-<div class="columns" id="app">
-   @include('partials.left')
-    @yield('content')
-</div>
+<div id="app">
+    @include('partials.nav')
 
-@include('partials.footer')
+    <div class="columns">
+        @include('partials.left')
+        @yield('content')
+    </div>
+</div>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    @yield('script')
 </body>
 </html>
