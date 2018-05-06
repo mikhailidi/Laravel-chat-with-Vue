@@ -3,7 +3,7 @@
     <div class="inbox-messages" id="chat-area">
         <message v-for="message in messages" :message="message" :key="message.id"></message>
     </div>
-    <send-message :user="user" :messages="messages" :scrollToEnd="scrollToEnd"></send-message>
+    <send-message :user="user" :messages="messages" :scrollToEnd="scrollToEnd" :listen="listen"></send-message>
 </div>
 </template>
 
@@ -19,6 +19,7 @@
         },
         mounted() {
             this.getMessages();
+            this.listen();
         },
         methods: {
             getMessages() {
@@ -31,7 +32,7 @@
                         console.log(error);
                     });
             },
-            scrollToEnd: function (isFirstTime = false) {
+            scrollToEnd (isFirstTime = false) {
                 let container = this.$el.querySelector("#chat-area");
                 let scrollPos = container.scrollTop;
                 let containerHeight = container.scrollHeight;
@@ -42,6 +43,13 @@
                         container.scrollTop = container.scrollHeight;
                     }, 300);
                 }
+            },
+            listen() {
+                Echo.channel('public-channel')
+                    .listen('\\Modules\\Chat\\Events\\NewMessage', (message) => {
+                        this.messages.push(message);
+                        this.scrollToEnd();
+                    });
             }
         },
         components: {

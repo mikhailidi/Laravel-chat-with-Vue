@@ -46205,6 +46205,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         this.getMessages();
+        this.listen();
     },
 
     methods: {
@@ -46218,7 +46219,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log(error);
             });
         },
-
         scrollToEnd: function scrollToEnd() {
             var isFirstTime = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
@@ -46232,6 +46232,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     container.scrollTop = container.scrollHeight;
                 }, 300);
             }
+        },
+        listen: function listen() {
+            var _this2 = this;
+
+            Echo.channel('public-channel').listen('\\Modules\\Chat\\Events\\NewMessage', function (message) {
+                //console.log(message);
+                _this2.messages.push(message);
+                _this2.scrollToEnd();
+            });
         }
     },
     components: {
@@ -46315,6 +46324,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             sendLoading: ''
         };
     },
+    mounted: function mounted() {
+        //            this.listen();
+    },
 
     methods: {
         postMessage: function postMessage() {
@@ -46335,7 +46347,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         }
     },
-    props: ['user', 'messages', 'scrollToEnd']
+    props: ['user', 'messages', 'scrollToEnd', 'listen']
 });
 
 /***/ }),
@@ -46600,7 +46612,8 @@ var render = function() {
         attrs: {
           user: _vm.user,
           messages: _vm.messages,
-          scrollToEnd: _vm.scrollToEnd
+          scrollToEnd: _vm.scrollToEnd,
+          listen: _vm.listen
         }
       })
     ],

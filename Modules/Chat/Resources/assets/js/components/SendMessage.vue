@@ -38,6 +38,6 @@
                     });
             }
         },
-        props: ['user', 'messages', 'scrollToEnd' ]
+        props: ['user', 'messages', 'scrollToEnd']
     }
 </script>
