@@ -31,6 +31,9 @@ Vue.component('add-friend', require('../../../Modules/Friend/Resources/assets/js
 Vue.component('cancel-request', require('../../../Modules/Friend/Resources/assets/js/components/CancelRequestComponent.vue'));
 Vue.component('confirm-request', require('../../../Modules/Friend/Resources/assets/js/components/ConfirmRequestComponent.vue'));
 Vue.component('chat', require('../../../Modules/Chat/Resources/assets/js/components/Chat.vue'));
+Vue.component('conversations', require('../../../Modules/Chat/Resources/assets/js/components/Conversation.vue'));
+
+Vue.prototype.$eventBus = new Vue();
 
 const app = new Vue({
     el: '#app'

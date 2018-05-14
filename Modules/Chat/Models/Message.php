@@ -17,12 +17,17 @@ class Message extends Model
      * @var array
      */
     protected $fillable = [
-        'message', 'user_id',
+        'message', 'user_id', 'conversation_id'
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function conversation()
+    {
+        return $this->belongsTo(Conversation::class);
     }
 
     /**
@@ -63,7 +68,23 @@ class Message extends Model
         return $this;
     }
 
+    /**
+     * @return int
+     */
+    public function getConversationId()
+    {
+        return $this->conversation_id;
+    }
 
+    /**
+     * @param int $conversationId
+     * @return Message
+     */
+    public function setConversationId($conversationId)
+    {
+        $this->conversation_id = $conversationId;
 
+        return $this;
+    }
 
 }

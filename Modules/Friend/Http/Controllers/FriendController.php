@@ -139,6 +139,7 @@ class FriendController extends Controller
 
             if ($friend1->save() && $friend2->save()) {
                 $friendRequest->delete();
+
                 return response()->json(['status' => 'friend.added']);
             }
         }

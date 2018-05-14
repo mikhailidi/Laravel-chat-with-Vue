@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Modules\Chat\Events\NewMessage;
 use Modules\Chat\Models\Message;
 
 class MessageController extends Controller
@@ -13,11 +14,14 @@ class MessageController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param int $conversationId Conversation id
+     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index($conversationId = 1)
     {
-        return \response()->json(Message::with('user')->get());
+        //\response()->json([$conversationId])->setStatusCode(500);
+        return \response()->json(Message::with('user')->where('conversation_id', $conversationId)->get());
     }
 
     /**
@@ -32,18 +36,23 @@ class MessageController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request $request
+     * @param Request $request
+     * @param int $conversationId
+     *
+     * @throws \Exception
      * @return string
      */
     public function store(Request $request)
     {
-        //dd($request->get('message'));
         $message = new Message;
         $message->setMessage($request->get('message'));
         $message->setUserId(Auth::id());
+        $message->setConversationId($request->get('conversation_id'));
 
         if ($message->save()) {
             $message->load('user');
+            broadcast(new NewMessage($message))->toOthers();
+
             return $message->toJson();
         }
 

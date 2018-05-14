@@ -57,17 +57,7 @@
         </div>
     </div>
 
-    <div class="inbox-messages" id="inbox-messages">
-        <div class="card active">
-            <div class="card-content">
-                <div class="msg-header"><span class="msg-from"><small>From: Meggie Botsford</small></span> <span
-                            class="msg-timestamp"></span></div>
-                <div class="msg-subject"><span class="msg-subject"><strong id="fake-subject-1">Et ut quisquam ut earum qui voluptas duc</strong></span>
-                </div>
-                {{--<div class="msg-snippet"><p id="fake-snippet-1">Voluptatum assumenda unde ipsum doloribus suscipit.</p></div>--}}
-            </div>
-        </div>
-    </div>
+    <conversations></conversations>
 </div>
 
 @section('style')
