@@ -1,9 +1,15 @@
 <template lang="html">
 <div>
-    <div class="inbox-messages" id="chat-area">
-        <message v-for="message in messages" :message="message" :key="message.id"></message>
+    <div v-if="conversation">
+        <div class="inbox-messages" id="chat-area">
+            <div class="notification is-info" v-if="!messages.length">No messages in this conversation yet</div>
+            <message v-for="message in messages" :message="message" :key="message.id"></message>
+        </div>
+        <send-message :user="user" :messages="messages" :scrollToEnd="scrollToEnd" :listen="listen" :conversationId="conversation.id"></send-message>
     </div>
-    <send-message :user="user" :messages="messages" :scrollToEnd="scrollToEnd" :listen="listen"></send-message>
+    <div v-else>
+        <div class="notification is-info">Please choose a conversation from the list</div>
+    </div>
 </div>
 </template>
 
@@ -14,16 +20,24 @@
     export default {
         data() {
             return {
-                messages: {}
+                messages: null,
+                conversation: null
             }
         },
         mounted() {
-            this.getMessages();
+            //this.getMessages();
             this.listen();
         },
+        created() {
+            Vue.prototype.$eventBus.$on('conversationSelected', (conversation) => {
+                this.conversation = conversation;
+                this.getMessages(conversation.id);
+            });
+        },
         methods: {
-            getMessages() {
-                axios.get(this.$routes.route('message.index'))
+            getMessages(conversation_id = 1) {
+                this.messages = {};
+                axios.get(this.$routes.route('message.index', {id: conversation_id}))
                     .then((response) => {
                         this.messages = response.data;
                         this.scrollToEnd(true);

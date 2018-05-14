@@ -25,7 +25,8 @@
 
                 axios.post(this.$routes.route('message.store', {
                     api_token: this.user.api_token,
-                    message: this.messageBox
+                    message: this.messageBox,
+                    conversation_id: this.conversationId
                 }))
                     .then((response) => {
                         this.sendLoading = '';
@@ -34,10 +35,11 @@
                         this.scrollToEnd();
                     })
                     .catch(function (error) {
+                        this.sendLoading = 'is-loading';
                         console.log(error);
                     });
             }
         },
-        props: ['user', 'messages', 'scrollToEnd']
+        props: ['user', 'messages', 'scrollToEnd', 'conversationId']
     }
 </script>
