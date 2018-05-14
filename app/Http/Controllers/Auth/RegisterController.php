@@ -6,6 +6,7 @@ use Modules\User\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Ramsey\Uuid\Uuid;
 
 class RegisterController extends Controller
 {
@@ -76,6 +77,7 @@ class RegisterController extends Controller
             'last_name' => $this->prepareUserString($data['last_name']),
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'api_token' => Uuid::uuid4()->toString()
         ]);
     }
 

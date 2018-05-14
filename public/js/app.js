@@ -46237,7 +46237,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             Echo.channel('public-channel').listen('\\Modules\\Chat\\Events\\NewMessage', function (message) {
-                //console.log(message);
                 _this2.messages.push(message);
                 _this2.scrollToEnd();
             });
@@ -46324,9 +46323,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             sendLoading: ''
         };
     },
-    mounted: function mounted() {
-        //            this.listen();
-    },
 
     methods: {
         postMessage: function postMessage() {
@@ -46347,7 +46343,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         }
     },
-    props: ['user', 'messages', 'scrollToEnd', 'listen']
+    props: ['user', 'messages', 'scrollToEnd']
 });
 
 /***/ }),
@@ -46550,7 +46546,7 @@ var render = function() {
                 _vm._s(_vm.message.user.username) +
                 ",\n                    "
             ),
-            _c("small", [_vm._v(_vm._s(_vm.message.created_at))])
+            _c("small", [_vm._v(_vm._s(_vm.message.humanCreatedAt))])
           ])
         ])
       ]),
