@@ -11391,7 +11391,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(13);
-module.exports = __webpack_require__(73);
+module.exports = __webpack_require__(76);
 
 
 /***/ }),
@@ -11439,7 +11439,7 @@ Vue.component('add-friend', __webpack_require__(43));
 Vue.component('cancel-request', __webpack_require__(46));
 Vue.component('confirm-request', __webpack_require__(49));
 Vue.component('chat', __webpack_require__(52));
-Vue.component('conversations', __webpack_require__(61));
+Vue.component('conversations', __webpack_require__(64));
 
 Vue.prototype.$eventBus = new Vue();
 
@@ -11447,7 +11447,7 @@ var app = new Vue({
   el: '#app'
 });
 
-__webpack_require__(64);
+__webpack_require__(67);
 __webpack_require__(5);
 
 /***/ }),
@@ -46139,7 +46139,7 @@ var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(53)
 /* template */
-var __vue_template__ = __webpack_require__(60)
+var __vue_template__ = __webpack_require__(63)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -46185,7 +46185,7 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__SendMessage_vue__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__SendMessage_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__SendMessage_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ChatList_vue__ = __webpack_require__(84);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ChatList_vue__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ChatList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ChatList_vue__);
 //
 //
@@ -46227,6 +46227,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var chatItem = _this.getChatItem(conversation.id);
             if (!chatItem) {
                 _this.getMessages(conversation.id);
+            } else {
+                _this.scrollToEnd();
             }
         });
     },
@@ -46251,7 +46253,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         getChatItem: function getChatItem(conversation_id) {
-            //                console.log(this.chatItems.find(x => x.conversation_id === conversation_id));
             return this.chatItems.find(function (x) {
                 return x.conversation_id === conversation_id;
             });
@@ -46259,6 +46260,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         addChatItem: function addChatItem(chatItem) {
             if (!this.getChatItem(chatItem.conversation_id)) {
                 this.chatItems.push(chatItem);
+            }
+        },
+        pushMessageToChat: function pushMessageToChat(message) {
+            var chatItem = this.getChatItem(message.conversation_id);
+
+            if (chatItem) {
+                chatItem.messages.push(message);
             }
         },
         scrollToEnd: function scrollToEnd() {
@@ -46279,8 +46287,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this3 = this;
 
             Echo.channel('public-channel').listen('\\Modules\\Chat\\Events\\NewMessage', function (message) {
-                _this3.messages.push(message);
-                _this3.scrollToEnd();
+                if (_this3.getChatItem(message.conversation_id)) {
+                    _this3.pushMessageToChat(message);
+                    _this3.scrollToEnd();
+                }
             });
         }
     },
@@ -46380,7 +46390,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.sendLoading = '';
 
                 var chatItem = _this.chatItems.find(function (x) {
-                    return x.id === _this.conversationId;
+                    return x.conversation_id === _this.conversationId;
                 });
                 chatItem.messages.push(response.data);
 
@@ -46477,7 +46487,81 @@ var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(58)
 /* template */
-var __vue_template__ = __webpack_require__(59)
+var __vue_template__ = __webpack_require__(62)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "Modules/Chat/Resources/assets/js/components/ChatList.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-25e4d12c", Component.options)
+  } else {
+    hotAPI.reload("data-v-25e4d12c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 58 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Message_vue__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Message_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Message_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        Message: __WEBPACK_IMPORTED_MODULE_0__Message_vue___default.a
+    },
+    props: ['chatItems', 'activeConversation']
+});
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(60)
+/* template */
+var __vue_template__ = __webpack_require__(61)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -46516,7 +46600,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 58 */
+/* 60 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -46568,7 +46652,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 59 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -46635,7 +46719,59 @@ if (false) {
 }
 
 /***/ }),
-/* 60 */
+/* 62 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    _vm._l(_vm.chatItems, function(chatItem) {
+      return _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.activeConversation == chatItem.conversation_id,
+              expression: "activeConversation == chatItem.conversation_id"
+            }
+          ]
+        },
+        [
+          !chatItem.messages.length
+            ? _c("div", { staticClass: "notification is-info" }, [
+                _vm._v("No messages in this conversation yet")
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm._l(chatItem.messages, function(message) {
+            return _c("message", {
+              key: message.id,
+              attrs: { message: message }
+            })
+          })
+        ],
+        2
+      )
+    })
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-25e4d12c", module.exports)
+  }
+}
+
+/***/ }),
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -46688,7 +46824,7 @@ var render = function() {
           1
         )
       : _c("div", [
-          _c("div", { staticClass: "notification is-info" }, [
+          _c("div", { staticClass: "notification is-warning" }, [
             _vm._v("Please choose a conversation from the list")
           ])
         ])
@@ -46705,15 +46841,15 @@ if (false) {
 }
 
 /***/ }),
-/* 61 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(62)
+var __vue_script__ = __webpack_require__(65)
 /* template */
-var __vue_template__ = __webpack_require__(63)
+var __vue_template__ = __webpack_require__(66)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -46752,7 +46888,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 62 */
+/* 65 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -46804,7 +46940,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 63 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -46873,21 +47009,21 @@ if (false) {
 }
 
 /***/ }),
-/* 64 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-__webpack_require__(65);
-__webpack_require__(66);
-__webpack_require__(67);
 __webpack_require__(68);
 __webpack_require__(69);
 __webpack_require__(70);
 __webpack_require__(71);
 __webpack_require__(72);
+__webpack_require__(73);
+__webpack_require__(74);
+__webpack_require__(75);
 
 /***/ }),
-/* 65 */
+/* 68 */
 /***/ (function(module, exports) {
 
 let accordions = document.querySelectorAll('.accordions');
@@ -46914,7 +47050,7 @@ if (accordions) {
 
 
 /***/ }),
-/* 66 */
+/* 69 */
 /***/ (function(module, exports) {
 
 var datepicker_langs = {
@@ -47399,7 +47535,7 @@ class DatePicker {
 
 
 /***/ }),
-/* 67 */
+/* 70 */
 /***/ (function(module, exports) {
 
 class Carousel {
@@ -47494,7 +47630,7 @@ window.onload = function() {
 
 
 /***/ }),
-/* 68 */
+/* 71 */
 /***/ (function(module, exports) {
 
 let fetchStyle = function(url) {
@@ -47751,7 +47887,7 @@ if (iconPickers) {
 
 
 /***/ }),
-/* 69 */
+/* 72 */
 /***/ (function(module, exports) {
 
 function closest(el, selector) {
@@ -47808,7 +47944,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 
 
 /***/ }),
-/* 70 */
+/* 73 */
 /***/ (function(module, exports) {
 
 // Find output DOM associated to the DOM element passed as parameter
@@ -47885,7 +48021,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 
 
 /***/ }),
-/* 71 */
+/* 74 */
 /***/ (function(module, exports) {
 
 class StepsWizard {
@@ -48089,7 +48225,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 
 
 /***/ }),
-/* 72 */
+/* 75 */
 /***/ (function(module, exports) {
 
 class Tagify {
@@ -48399,146 +48535,10 @@ if (tagInputs) {
 
 
 /***/ }),
-/* 73 */
+/* 76 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 74 */,
-/* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */,
-/* 79 */,
-/* 80 */,
-/* 81 */,
-/* 82 */,
-/* 83 */,
-/* 84 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(85)
-/* template */
-var __vue_template__ = __webpack_require__(86)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "Modules/Chat/Resources/assets/js/components/ChatList.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-25e4d12c", Component.options)
-  } else {
-    hotAPI.reload("data-v-25e4d12c", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 85 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Message_vue__ = __webpack_require__(57);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Message_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Message_vue__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    components: {
-        Message: __WEBPACK_IMPORTED_MODULE_0__Message_vue___default.a
-    },
-    props: ['chatItems', 'activeConversation']
-});
-
-/***/ }),
-/* 86 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    _vm._l(_vm.chatItems, function(chatItem) {
-      return _c(
-        "div",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.activeConversation == chatItem.conversation_id,
-              expression: "activeConversation == chatItem.conversation_id"
-            }
-          ]
-        },
-        [
-          !chatItem.messages.length
-            ? _c("div", { staticClass: "notification is-info" }, [
-                _vm._v("No messages in this conversation yet")
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _vm._l(chatItem.messages, function(message) {
-            return _c("message", {
-              key: message.id,
-              attrs: { message: message }
-            })
-          })
-        ],
-        2
-      )
-    })
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-25e4d12c", module.exports)
-  }
-}
 
 /***/ })
 /******/ ]);

@@ -31,7 +31,7 @@
                     .then((response) => {
                         this.sendLoading = '';
 
-                        let chatItem = this.chatItems.find(x => x.id === this.conversationId);
+                        let chatItem = this.chatItems.find(x => x.conversation_id === this.conversationId);
                         chatItem.messages.push(response.data);
 
                         this.messageBox = '';

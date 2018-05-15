@@ -9,7 +9,7 @@
         <send-message v-show="conversation" :user="user" :chatItems="chatItems" :scrollToEnd="scrollToEnd" :listen="listen" :conversationId="conversation.id"></send-message>
     </div>
     <div v-else>
-        <div class="notification is-info">Please choose a conversation from the list</div>
+        <div class="notification is-warning">Please choose a conversation from the list</div>
     </div>
 </div>
 </template>
@@ -36,6 +36,8 @@
                 let chatItem = this.getChatItem(conversation.id);
                 if (!chatItem) {
                     this.getMessages(conversation.id);
+                } else {
+                    this.scrollToEnd();
                 }
             });
         },
@@ -57,12 +59,18 @@
                     });
             },
             getChatItem(conversation_id) {
-//                console.log(this.chatItems.find(x => x.conversation_id === conversation_id));
                 return this.chatItems.find(x => x.conversation_id === conversation_id);
             },
             addChatItem(chatItem) {
                 if (!this.getChatItem(chatItem.conversation_id)) {
                     this.chatItems.push(chatItem);
+                }
+            },
+            pushMessageToChat(message) {
+                let chatItem = this.getChatItem(message.conversation_id);
+
+                if (chatItem) {
+                    chatItem.messages.push(message);
                 }
             },
             scrollToEnd (isFirstTime = false) {
@@ -80,8 +88,10 @@
             listen() {
                 Echo.channel('public-channel')
                     .listen('\\Modules\\Chat\\Events\\NewMessage', (message) => {
-                        this.messages.push(message);
-                        this.scrollToEnd();
+                        if (this.getChatItem(message.conversation_id)) {
+                            this.pushMessageToChat(message);
+                            this.scrollToEnd();
+                        }
                     });
             }
         },
