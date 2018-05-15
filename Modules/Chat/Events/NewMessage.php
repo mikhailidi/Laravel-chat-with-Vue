@@ -50,6 +50,7 @@ class NewMessage implements ShouldBroadcastNow
     public function broadcastWith()
     {
         $this->message->load('user');
+        $this->message->load('conversation');
 
         return $this->message->toArray();
     }

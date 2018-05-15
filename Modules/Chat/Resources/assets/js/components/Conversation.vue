@@ -1,7 +1,7 @@
 <template lang="html">
 <div>
     <div class="inbox-messages" id="inbox-messages">
-        <div  class="card" :class="conversation.active" v-for="conversation in conversations">
+        <div  class="card" v-for="conversation in conversations" v-bind:class="{ active: activeConversation === conversation.id}">
             <div class="card-content" @click="conversationSelected(conversation)">
                 <div class="msg-header"><span class="msg-from"><small>{{ conversation.name }}</small></span> <span
                             class="msg-timestamp"></span></div>
@@ -17,7 +17,8 @@
     export default {
         data() {
             return {
-                conversations: {}
+                conversations: {},
+                activeConversation: null
             }
         },
         mounted() {
@@ -34,6 +35,8 @@
                     });
             },
             conversationSelected(conversation) {
+                this.activeConversation = conversation.id;
+
                 // Using the event bus
                 Vue.prototype.$eventBus.$emit('conversationSelected', conversation);
             }
