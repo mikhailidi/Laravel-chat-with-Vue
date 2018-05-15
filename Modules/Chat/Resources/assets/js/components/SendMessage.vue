@@ -30,7 +30,10 @@
                 }))
                     .then((response) => {
                         this.sendLoading = '';
-                        this.messages.push(response.data);
+
+                        let chatItem = this.chatItems.find(x => x.id === this.conversationId);
+                        chatItem.messages.push(response.data);
+
                         this.messageBox = '';
                         this.scrollToEnd();
                     })
@@ -40,6 +43,6 @@
                     });
             }
         },
-        props: ['user', 'messages', 'scrollToEnd', 'conversationId']
+        props: ['user', 'chatItems', 'scrollToEnd', 'conversationId']
     }
 </script>

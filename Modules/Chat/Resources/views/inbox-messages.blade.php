@@ -40,23 +40,6 @@
 
 
 <div class="column is-3 messages hero is-fullheight" id="message-feed">
-    <div class="action-buttons">
-        {{--<div class="control is-grouped">--}}
-            {{--<a class="button is-small"><i class="fa fa-chevron-down"></i></a>--}}
-            {{--<a class="button is-small"><i class="fa fa-refresh"></i></a>--}}
-        {{--</div>--}}
-        {{--<div class="control is-grouped">--}}
-            {{--<a class="button is-small"><i class="fa fa-inbox"></i></a>--}}
-            {{--<a class="button is-small"><i class="fa fa-exclamation-circle"></i></a>--}}
-            {{--<a class="button is-small"><i class="fa fa-trash-o"></i></a>--}}
-        {{--</div>--}}
-        <div class="control is-grouped pg">
-            <div class="title">1212 of 234324</div>
-            <a class="button is-link"><i class="fa fa-chevron-left"></i></a>
-            <a class="button is-link"><i class="fa fa-chevron-right"></i></a>
-        </div>
-    </div>
-
     <conversations></conversations>
 </div>
 
