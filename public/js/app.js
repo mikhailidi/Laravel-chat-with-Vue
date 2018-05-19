@@ -46628,11 +46628,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    //        data() {
-    //            return {
-    //                messages: {},
-    //            }
-    //        },
+    data: function data() {
+        return {
+            userImg: this.message.user.avatar ? this.message.user.avatar : 'https://dummyimage.com/96x96/857c85/fff.png&text=' + this.message.user.first_name.charAt(0) + this.message.user.last_name.charAt(0)
+        };
+    },
+
     //        mounted() {
     //            this.getMessages();
     //        },
@@ -46662,7 +46663,11 @@ var render = function() {
   return _c("div", { staticClass: "card card-message" }, [
     _c("div", { staticClass: "card-content" }, [
       _c("div", { staticClass: "media" }, [
-        _vm._m(0),
+        _c("div", { staticClass: "media-left" }, [
+          _c("figure", { staticClass: "image is-48x48" }, [
+            _c("img", { attrs: { src: _vm.userImg, alt: "Placeholder image" } })
+          ])
+        ]),
         _vm._v(" "),
         _c("div", { staticClass: "media-content" }, [
           _c("p", { staticClass: "title is-5" }, [
@@ -46692,23 +46697,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "media-left" }, [
-      _c("figure", { staticClass: "image is-48x48" }, [
-        _c("img", {
-          attrs: {
-            src: "https://bulma.io/images/placeholders/96x96.png",
-            alt: "Placeholder image"
-          }
-        })
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
