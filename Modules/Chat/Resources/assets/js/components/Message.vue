@@ -4,7 +4,7 @@
         <div class="media">
             <div class="media-left">
                 <figure class="image is-48x48">
-                    <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                    <img v-bind:src="userImg"  alt="Placeholder image">
                 </figure>
             </div>
             <div class="media-content">
@@ -21,11 +21,12 @@
 
 <script>
     export default {
-//        data() {
-//            return {
-//                messages: {},
-//            }
-//        },
+        data() {
+            return {
+                userImg: this.message.user.avatar ? this.message.user.avatar :
+                    'https://dummyimage.com/96x96/857c85/fff.png&text=' + this.message.user.first_name.charAt(0) + this.message.user.last_name.charAt(0),
+            }
+        },
 //        mounted() {
 //            this.getMessages();
 //        },
