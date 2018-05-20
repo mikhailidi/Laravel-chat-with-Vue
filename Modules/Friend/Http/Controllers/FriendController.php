@@ -48,7 +48,7 @@ class FriendController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @param int $id Friend id which we should add
      *
      * @throws \Exception If user_id == friend_id
@@ -68,7 +68,7 @@ class FriendController extends Controller
         ]);
 
         if ($friendRequest->save()) {
-            if($request->ajax()){
+            if ($request->ajax()) {
                 return "Successfully added";
             }
             return redirect()->back();
@@ -80,7 +80,7 @@ class FriendController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  Friend  $friend
+     * @param  Friend $friend
      * @return \Illuminate\Http\Response
      */
     public function show(Friend $friend)
@@ -102,8 +102,8 @@ class FriendController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  Friend  $friend
+     * @param  \Illuminate\Http\Request $request
+     * @param  Friend $friend
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Friend $friend)
@@ -114,12 +114,31 @@ class FriendController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Friend  $friend
+     * @param  Friend $friend
      * @return \Illuminate\Http\Response
      */
     public function destroy(Friend $friend)
     {
         //
+    }
+
+    /**
+     * @param $keyword
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function search($keyword)
+    {
+        $friends = Friend::whereHas('user', function ($query) use ($keyword) {
+            $query->where('first_name', 'like', '%' . $keyword . '%')
+                ->orWhere('last_name', 'like', '%' . $keyword . '%')
+                ->orWhere('username', 'like', '%' . $keyword . '%')
+                ->orWhere('email', 'like', '%' . $keyword);
+        })
+            ->where('user_id', Auth::id())
+            ->with('user')
+            ->get();
+
+        return response()->json(['results' => $friends]);
     }
 
     public function acceptRequest(Request $request, $id)
