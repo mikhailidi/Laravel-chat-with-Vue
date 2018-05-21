@@ -32,12 +32,19 @@
     export default {
         data() {
             return {
-                conversations: {},
+                conversations: [],
                 activeConversation: null
             }
         },
         mounted() {
             this.getConversations();
+        },
+        created() {
+            Vue.prototype.$eventBus.$on('newConversation', (conversation) => {
+                if (! this.conversations.find(x => x.id === conversation.id)) {
+                    this.addNewConversation(conversation);
+                }
+            });
         },
         methods: {
             getConversations() {
@@ -57,6 +64,9 @@
                     else
                         return 'No name';
 
+            },
+            addNewConversation(conversation) {
+                this.conversations.unshift(conversation);
             },
             conversationSelected(conversation) {
                 this.activeConversation = conversation.id;

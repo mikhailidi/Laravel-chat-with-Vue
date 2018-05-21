@@ -51,6 +51,7 @@ class NewMessage implements ShouldBroadcastNow
     {
         $this->message->load('user');
         $this->message->load('conversation');
+        $this->message->conversation->load(['fromUser', 'toUser']);
 
         return $this->message->toArray();
     }

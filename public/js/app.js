@@ -46654,6 +46654,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 if (_this3.getChatItem(message.conversation_id)) {
                     _this3.pushMessageToChat(message);
                     _this3.scrollToEnd();
+                } else {
+                    Vue.prototype.$eventBus.$emit('newConversation', message.conversation);
                 }
             });
         }
@@ -47284,26 +47286,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            conversations: {},
+            conversations: [],
             activeConversation: null
         };
     },
     mounted: function mounted() {
         this.getConversations();
     },
+    created: function created() {
+        var _this = this;
+
+        Vue.prototype.$eventBus.$on('newConversation', function (conversation) {
+            if (!_this.conversations.find(function (x) {
+                return x.id === conversation.id;
+            })) {
+                _this.addNewConversation(conversation);
+            }
+        });
+    },
 
     methods: {
         getConversations: function getConversations() {
-            var _this = this;
+            var _this2 = this;
 
             axios.get(this.$routes.route('conversation.index')).then(function (response) {
-                _this.conversations = response.data;
+                _this2.conversations = response.data;
             }).catch(function (error) {
                 console.log(error);
             });
         },
         getConversationName: function getConversationName(conversation) {
             if (conversation.name) return conversation.name;else if (conversation.to_user) return conversation.to_user.first_name + ' ' + conversation.to_user.last_name;else return 'No name';
+        },
+        addNewConversation: function addNewConversation(conversation) {
+            this.conversations.unshift(conversation);
         },
         conversationSelected: function conversationSelected(conversation) {
             this.activeConversation = conversation.id;
@@ -47574,6 +47590,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             })).then(function (response) {
                 _this2.isCardModalActive = false;
                 _this2.message = '';
+                _this2.name = '';
                 _this2.friend = null;
                 _this2.success();
             }).catch(function (error) {

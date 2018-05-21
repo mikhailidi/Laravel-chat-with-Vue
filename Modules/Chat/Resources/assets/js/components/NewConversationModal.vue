@@ -102,6 +102,7 @@
                     .then((response) => {
                         this.isCardModalActive = false;
                         this.message = '';
+                        this.name = '';
                         this.friend = null;
                         this.success();
                 })

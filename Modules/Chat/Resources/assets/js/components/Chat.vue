@@ -99,6 +99,8 @@
                         if (this.getChatItem(message.conversation_id)) {
                             this.pushMessageToChat(message);
                             this.scrollToEnd();
+                        } else {
+                            Vue.prototype.$eventBus.$emit('newConversation', message.conversation);
                         }
                     });
             }

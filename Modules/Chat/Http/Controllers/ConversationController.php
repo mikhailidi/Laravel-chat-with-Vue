@@ -66,7 +66,7 @@ class ConversationController extends Controller
 
         if ($message->save()) {
             $message->load('user');
-            broadcast(new NewMessage($message))->toOthers();
+            broadcast(new NewMessage($message));
 
             return $message->toJson();
         }
