@@ -6,9 +6,17 @@
                 <ChatList :chatItems="chatItems" :activeConversation="conversation.id"></ChatList>
             </div>
         </div>
-        <send-message v-show="conversation" :user="user" :chatItems="chatItems" :scrollToEnd="scrollToEnd" :listen="listen" :conversationId="conversation.id"></send-message>
+        <hr>
+        <send-message v-show="conversation"
+                     :user="user"
+                     :chatItems="chatItems"
+                     :scrollToEnd="scrollToEnd"
+                     :listen="listen"
+                     :conversationId="conversation.id">
+        </send-message>
     </div>
     <div v-else>
+        <hr>
         <div class="notification is-warning">Please choose a conversation from the list</div>
     </div>
 </div>

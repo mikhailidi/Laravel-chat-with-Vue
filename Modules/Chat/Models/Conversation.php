@@ -48,4 +48,15 @@ class Conversation extends Model
     {
         return $this->toUser;
     }
+
+    public static function getUsersConversation($idUserFrom, $idUserTo)
+    {
+        return \DB::table('conversations')->where([
+            ['user_from', $idUserFrom],
+            ['user_to', $idUserTo]
+        ])->orWhere([
+            ['user_from', $idUserTo],
+            ['user_to', $idUserFrom]
+        ])->first();
+    }
 }

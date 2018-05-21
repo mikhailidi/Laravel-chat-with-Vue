@@ -9,13 +9,13 @@
             </a>
         </div>
 
-        <b-modal :active.sync="isCardModalActive" :width="840">
-            <div class="modal-card" style="width: auto">
+        <b-modal :active.sync="isCardModalActive" :width="1200" has-modal-card>
+            <div class="modal-card" >
                 <header class="modal-card-head">
                     <p class="modal-card-title">New message</p>
                 </header>
                 <div class="modal-card-body">
-                    <b-field horizontal label="Find your friend">
+                    <b-field horizontal label="Friend">
                         <b-autocomplete
                                 v-model="name"
                                 placeholder="Type your friend's first name, last name, username or email"
@@ -24,8 +24,7 @@
                                 field="user.username"
                                 :loading="isFetching"
                                 @input="getFriends"
-                                @select="option => selected = option"
-                                maxlength="50">
+                                @select="option => friend = option">
 
                             <template slot-scope="props">
                                 <div class="media">
@@ -40,13 +39,13 @@
                     </b-field>
 
                     <b-field horizontal label="Message">
-                        <b-input type="textarea"></b-input>
+                        <b-input v-model="message" placeholder="Type your message here" type="textarea"></b-input>
                     </b-field>
                 </div>
                 <footer class="modal-card-foot">
                     <b-field position="is-centered">
                         <p class="control">
-                            <button class="button is-primary" :disabled=" !selected && !message">
+                            <button @click.prevent="sendMessage" class="button is-primary" :disabled="isButtonDisabled">
                                 Send message
                             </button>
                         </p>
@@ -64,19 +63,27 @@
     export default {
         data() {
             return {
-                isImageModalActive: false,
                 isCardModalActive: false,
                 data: [],
                 name: '',
-                selected: null,
+                friend: null,
                 isFetching: false,
-                message: ''
+                message: null
+            }
+        },
+        computed: {
+            isButtonDisabled() {
+                return !(this.friend && this.message);
             }
         },
         methods: {
             getFriends: debounce(function () {
+                if (!this.name)
+                    return;
+
                 this.data = [];
                 this.isFetching = true;
+
                 axios.get(this.$routes.route('friends.search', {keyword: this.name}))
                     .then(({data}) => {
                         data.results.forEach((item) => this.data.push(item));
@@ -86,14 +93,28 @@
                         this.isFetching = false;
                         throw error
                     })
-            }, 500)
-        }
+            }, 500),
+            sendMessage() {
+                axios.post(this.$routes.route('conversation.store', {
+                    friend: JSON.stringify(this.friend),
+                    message: this.message
+                }))
+                    .then((response) => {
+                        this.isCardModalActive = false;
+                        this.message = '';
+                        this.friend = null;
+                        this.success();
+                })
+                    .catch((error) => {
+                        console.log(error);
+                });
+            },
+            success() {
+                this.$toast.open({
+                    message: 'Message has been sent',
+                    type: 'is-success'
+                })
+            },
+        },
     }
 </script>
-
-
-<style>
-    .dropdown-menu {
-        display: block;
-    }
-</style>

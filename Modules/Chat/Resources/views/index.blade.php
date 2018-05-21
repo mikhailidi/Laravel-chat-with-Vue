@@ -3,7 +3,7 @@
 @section('content')
     @include('chat::inbox-messages')
 
-    <div class="column is-7 message hero is-fullheight" id="message-pane">
+    <div class="column is-7 hero is-fullheight" id="message-pane">
         <chat :user="{{ \Auth::user()->toJson() }}"></chat>
     </div>
 

@@ -1,16 +1,31 @@
 <template lang="html">
-<div>
+<section>
     <div class="inbox-messages" id="inbox-messages">
         <div  class="card" v-for="conversation in conversations" v-bind:class="{ active: activeConversation === conversation.id}">
             <div class="card-content" @click="conversationSelected(conversation)">
-                <div class="msg-header"><span class="msg-from"><small>{{ conversation.name }}</small></span> <span
-                            class="msg-timestamp"></span></div>
-                <div class="msg-subject"><span class="msg-subject"><strong id="fake-subject-1"></strong></span>
+                <div class="media">
+                    <div class="media-left">
+                        <figure class="image is-64x64">
+                          <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                        </figure>
+                    </div>
+
+                    <div class="media-content">
+                        <span class="msg-from">
+                            <small>
+                                {{ getConversationName(conversation) }}
+                                <p v-if="conversation.to_user">
+                                    @{{ conversation.to_user.username }}
+                                </p>
+                            </small>
+                        </span>
+                        <span class="msg-timestamp"></span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 </template>
 
 <script>
@@ -33,6 +48,15 @@
                     .catch((error) => {
                         console.log(error);
                     });
+            },
+            getConversationName(conversation) {
+                    if (conversation.name)
+                        return conversation.name;
+                    else if (conversation.to_user)
+                        return conversation.to_user.first_name + ' ' + conversation.to_user.last_name;
+                    else
+                        return 'No name';
+
             },
             conversationSelected(conversation) {
                 this.activeConversation = conversation.id;
