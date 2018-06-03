@@ -3,7 +3,7 @@
 namespace Modules\Chat\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-use Modules\Chat\Events\NewMessage;
+use Modules\Chat\Events\PrivateMessage;
 use Modules\Chat\Models\Conversation;
 use Illuminate\Http\Request;
 use Modules\Chat\Models\Message;
@@ -66,7 +66,7 @@ class ConversationController extends Controller
 
         if ($message->save()) {
             $message->load('user');
-            broadcast(new NewMessage($message));
+            broadcast(new PrivateMessage($message));
 
             return $message->toJson();
         }

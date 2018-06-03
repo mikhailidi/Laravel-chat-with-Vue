@@ -2,14 +2,14 @@
 
 namespace Modules\Chat\Events;
 
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Modules\Chat\Models\Message;
 
-class NewMessage implements ShouldBroadcastNow
+class PrivateMessage implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -36,7 +36,7 @@ class NewMessage implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new Channel('public-channel');
+        return new PrivateChannel('private-message');
     }
 
     /**

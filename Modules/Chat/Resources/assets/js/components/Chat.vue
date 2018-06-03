@@ -99,8 +99,17 @@
                         if (this.getChatItem(message.conversation_id)) {
                             this.pushMessageToChat(message);
                             this.scrollToEnd();
-                        } else {
-                            Vue.prototype.$eventBus.$emit('newConversation', message.conversation);
+                        }
+                    });
+                Echo.private('private-message')
+                    .listen('\\Modules\\Chat\\Events\\PrivateMessage', (message) => {
+                        if (message.conversation.user_from === this.user.id ||  message.conversation.user_to === this.user.id) {
+                            if (this.getChatItem(message.conversation_id)) {
+                                this.pushMessageToChat(message);
+                                this.scrollToEnd();
+                            } else {
+                                Vue.prototype.$eventBus.$emit('newConversation', message.conversation);
+                            }
                         }
                     });
             }

@@ -11479,7 +11479,7 @@ module.exports = isObject;
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var freeGlobal = __webpack_require__(79);
+var freeGlobal = __webpack_require__(74);
 
 /** Detect free variable `self`. */
 var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
@@ -11507,7 +11507,7 @@ module.exports = Symbol;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(15);
-module.exports = __webpack_require__(96);
+module.exports = __webpack_require__(91);
 
 
 /***/ }),
@@ -11564,7 +11564,7 @@ var app = new Vue({
   el: '#app'
 });
 
-__webpack_require__(87);
+__webpack_require__(82);
 __webpack_require__(4);
 
 /***/ }),
@@ -46654,8 +46654,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 if (_this3.getChatItem(message.conversation_id)) {
                     _this3.pushMessageToChat(message);
                     _this3.scrollToEnd();
-                } else {
-                    Vue.prototype.$eventBus.$emit('newConversation', message.conversation);
+                }
+            });
+            Echo.private('private-message').listen('\\Modules\\Chat\\Events\\PrivateMessage', function (message) {
+                if (message.conversation.user_from === _this3.user.id || message.conversation.user_to === _this3.user.id) {
+                    if (_this3.getChatItem(message.conversation_id)) {
+                        _this3.pushMessageToChat(message);
+                        _this3.scrollToEnd();
+                    } else {
+                        Vue.prototype.$eventBus.$emit('newConversation', message.conversation);
+                    }
                 }
             });
         }
@@ -47428,9 +47436,9 @@ if (false) {
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(76)
+var __vue_script__ = __webpack_require__(71)
 /* template */
-var __vue_template__ = __webpack_require__(86)
+var __vue_template__ = __webpack_require__(81)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -47469,17 +47477,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 71 */,
-/* 72 */,
-/* 73 */,
-/* 74 */,
-/* 75 */,
-/* 76 */
+/* 71 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_debounce__ = __webpack_require__(77);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_debounce__ = __webpack_require__(72);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_debounce___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash_debounce__);
 //
 //
@@ -47607,12 +47610,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 77 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(11),
-    now = __webpack_require__(78),
-    toNumber = __webpack_require__(80);
+    now = __webpack_require__(73),
+    toNumber = __webpack_require__(75);
 
 /** Error message constants. */
 var FUNC_ERROR_TEXT = 'Expected a function';
@@ -47803,7 +47806,7 @@ module.exports = debounce;
 
 
 /***/ }),
-/* 78 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var root = __webpack_require__(12);
@@ -47832,7 +47835,7 @@ module.exports = now;
 
 
 /***/ }),
-/* 79 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
@@ -47843,11 +47846,11 @@ module.exports = freeGlobal;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 80 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(11),
-    isSymbol = __webpack_require__(81);
+    isSymbol = __webpack_require__(76);
 
 /** Used as references for various `Number` constants. */
 var NAN = 0 / 0;
@@ -47915,11 +47918,11 @@ module.exports = toNumber;
 
 
 /***/ }),
-/* 81 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(82),
-    isObjectLike = __webpack_require__(85);
+var baseGetTag = __webpack_require__(77),
+    isObjectLike = __webpack_require__(80);
 
 /** `Object#toString` result references. */
 var symbolTag = '[object Symbol]';
@@ -47950,12 +47953,12 @@ module.exports = isSymbol;
 
 
 /***/ }),
-/* 82 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Symbol = __webpack_require__(13),
-    getRawTag = __webpack_require__(83),
-    objectToString = __webpack_require__(84);
+    getRawTag = __webpack_require__(78),
+    objectToString = __webpack_require__(79);
 
 /** `Object#toString` result references. */
 var nullTag = '[object Null]',
@@ -47984,7 +47987,7 @@ module.exports = baseGetTag;
 
 
 /***/ }),
-/* 83 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Symbol = __webpack_require__(13);
@@ -48036,7 +48039,7 @@ module.exports = getRawTag;
 
 
 /***/ }),
-/* 84 */
+/* 79 */
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -48064,7 +48067,7 @@ module.exports = objectToString;
 
 
 /***/ }),
-/* 85 */
+/* 80 */
 /***/ (function(module, exports) {
 
 /**
@@ -48099,7 +48102,7 @@ module.exports = isObjectLike;
 
 
 /***/ }),
-/* 86 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -48294,21 +48297,21 @@ if (false) {
 }
 
 /***/ }),
-/* 87 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
+__webpack_require__(83);
+__webpack_require__(84);
+__webpack_require__(85);
+__webpack_require__(86);
+__webpack_require__(87);
 __webpack_require__(88);
 __webpack_require__(89);
 __webpack_require__(90);
-__webpack_require__(91);
-__webpack_require__(92);
-__webpack_require__(93);
-__webpack_require__(94);
-__webpack_require__(95);
 
 /***/ }),
-/* 88 */
+/* 83 */
 /***/ (function(module, exports) {
 
 document.addEventListener( 'DOMContentLoaded', function () {
@@ -48335,7 +48338,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 
 
 /***/ }),
-/* 89 */
+/* 84 */
 /***/ (function(module, exports) {
 
 var datepicker_langs = {
@@ -48865,7 +48868,7 @@ class DatePicker {
 
 
 /***/ }),
-/* 90 */
+/* 85 */
 /***/ (function(module, exports) {
 
 class Carousel {
@@ -48976,7 +48979,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 
 
 /***/ }),
-/* 91 */
+/* 86 */
 /***/ (function(module, exports) {
 
 let fetchStyle = function(url) {
@@ -49231,7 +49234,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 
 
 /***/ }),
-/* 92 */
+/* 87 */
 /***/ (function(module, exports) {
 
 function closest(el, selector) {
@@ -49288,7 +49291,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 
 
 /***/ }),
-/* 93 */
+/* 88 */
 /***/ (function(module, exports) {
 
 // Find output DOM associated to the DOM element passed as parameter
@@ -49365,7 +49368,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 
 
 /***/ }),
-/* 94 */
+/* 89 */
 /***/ (function(module, exports) {
 
 class StepsWizard {
@@ -49578,7 +49581,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 /***/ }),
-/* 95 */
+/* 90 */
 /***/ (function(module, exports) {
 
 if (typeof Object.assign != 'function') {
@@ -49936,7 +49939,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 
 
 /***/ }),
-/* 96 */
+/* 91 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
