@@ -6,9 +6,17 @@
                 <ChatList :chatItems="chatItems" :activeConversation="conversation.id"></ChatList>
             </div>
         </div>
-        <send-message v-show="conversation" :user="user" :chatItems="chatItems" :scrollToEnd="scrollToEnd" :listen="listen" :conversationId="conversation.id"></send-message>
+        <hr>
+        <send-message v-show="conversation"
+                     :user="user"
+                     :chatItems="chatItems"
+                     :scrollToEnd="scrollToEnd"
+                     :listen="listen"
+                     :conversationId="conversation.id">
+        </send-message>
     </div>
     <div v-else>
+        <hr>
         <div class="notification is-warning">Please choose a conversation from the list</div>
     </div>
 </div>
@@ -91,6 +99,17 @@
                         if (this.getChatItem(message.conversation_id)) {
                             this.pushMessageToChat(message);
                             this.scrollToEnd();
+                        }
+                    });
+                Echo.private('private-message')
+                    .listen('\\Modules\\Chat\\Events\\PrivateMessage', (message) => {
+                        if (message.conversation.user_from === this.user.id ||  message.conversation.user_to === this.user.id) {
+                            if (this.getChatItem(message.conversation_id)) {
+                                this.pushMessageToChat(message);
+                                this.scrollToEnd();
+                            } else {
+                                Vue.prototype.$eventBus.$emit('newConversation', message.conversation);
+                            }
                         }
                     });
             }
