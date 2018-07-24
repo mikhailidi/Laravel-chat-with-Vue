@@ -47295,7 +47295,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             conversations: [],
-            activeConversation: null
+            activeConversation: null,
+            conversationUser: null
         };
     },
     mounted: function mounted() {
@@ -47319,13 +47320,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             axios.get(this.$routes.route('conversation.index')).then(function (response) {
                 _this2.conversations = response.data;
+
+                _this2.conversations.forEach(function (e) {
+                    if (!e.to_user && !e.from_user) {
+                        e.user = null;
+                    } else if (e.to_user.id !== this.user.id) {
+                        e.user = e.to_user;
+                    } else if (e.from_user.id !== this.user.id) {
+                        e.user = e.from_user;
+                    }
+                }, _this2);
             }).catch(function (error) {
                 console.log(error);
             });
         },
-        getConversationName: function getConversationName(conversation) {
-            if (conversation.name) return conversation.name;else if (conversation.to_user) return conversation.to_user.first_name + ' ' + conversation.to_user.last_name;else return 'No name';
-        },
+
+        //            getConversationUser(conversation) {
+        //                    if (conversation.type === 'public')
+        //                        return null;
+        //
+        //                    if (conversation.to_user.id !== this.user.id)
+        //                        return conversation.to_user;
+        //                    else if (conversation.from_user.id !== this.user.id)
+        //                        return conversation.to_user;
+        //                    else
+        //                        return null;
+        //            },
         addNewConversation: function addNewConversation(conversation) {
             this.conversations.unshift(conversation);
         },
@@ -47335,7 +47355,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             // Using the event bus
             Vue.prototype.$eventBus.$emit('conversationSelected', conversation);
         }
-    }
+    },
+    props: ['user']
 });
 
 /***/ }),
@@ -47377,14 +47398,20 @@ var render = function() {
                       _c("small", [
                         _vm._v(
                           "\n                                " +
-                            _vm._s(_vm.getConversationName(conversation)) +
+                            _vm._s(
+                              conversation.user
+                                ? conversation.user.first_name +
+                                  " " +
+                                  conversation.user.last_name
+                                : conversation.name
+                            ) +
                             "\n                                "
                         ),
-                        conversation.to_user
+                        conversation.user
                           ? _c("p", [
                               _vm._v(
                                 "\n                                    @" +
-                                  _vm._s(conversation.to_user.username) +
+                                  _vm._s(conversation.user.username) +
                                   "\n                                "
                               )
                             ])

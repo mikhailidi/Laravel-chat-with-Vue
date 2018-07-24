@@ -40,7 +40,7 @@
 
 
 <div class="column is-3 messages hero is-fullheight" id="message-feed">
-    <conversations></conversations>
+    <conversations :user="{{ \Illuminate\Support\Facades\Auth::user()->toJson() }}"></conversations>
 </div>
 
 @section('style')

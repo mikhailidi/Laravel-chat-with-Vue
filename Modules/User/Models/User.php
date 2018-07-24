@@ -2,6 +2,7 @@
 
 namespace Modules\User\Models;
 
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'first_name', 'last_name', 'avatar', 'email', 'password', 'api_token'
+        'username', 'first_name', 'last_name', 'avatar', 'email', 'password', 'api_token',
+        'last_login_at'
     ];
 
     /**
@@ -31,25 +33,44 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    /**
+     * Gets all user friends
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function myFriends()
     {
         return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function friendOf()
     {
         return $this->belongsToMany(User::class, 'friends', 'friend_id', 'user_id');
     }
 
+    /**
+     * Merges 2 relationships in one collection
+     *
+     * @return mixed
+     */
     public function friends()
     {
         return $this->myFriends->merge($this->friendOf);
     }
 
+    /**
+     * Message relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function message()
     {
         return $this->belongsToMany(Message::class);
     }
+
     /**
      * Check if you have a friend with id => $id
      *
@@ -217,7 +238,6 @@ class User extends Authenticatable
         return $this;
     }
 
-
     /**
      * @return string
      */
@@ -235,5 +255,13 @@ class User extends Authenticatable
         $this->avatar = (string)$avatar;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastLogin()
+    {
+        return $this->last_login_at ? Carbon::createFromTimeString($this->last_login_at)->diffForHumans() : 'A long time ago';
     }
 }

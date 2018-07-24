@@ -13,9 +13,9 @@
                     <div class="media-content">
                         <span class="msg-from">
                             <small>
-                                {{ getConversationName(conversation) }}
-                                <p v-if="conversation.to_user">
-                                    @{{ conversation.to_user.username }}
+                                {{ conversation.user ? conversation.user.first_name + ' ' + conversation.user.last_name : conversation.name }}
+                                <p v-if="conversation.user">
+                                    @{{ conversation.user.username }}
                                 </p>
                             </small>
                         </span>
@@ -33,7 +33,8 @@
         data() {
             return {
                 conversations: [],
-                activeConversation: null
+                activeConversation: null,
+                conversationUser: null
             }
         },
         mounted() {
@@ -51,20 +52,32 @@
                 axios.get(this.$routes.route('conversation.index'))
                     .then((response) => {
                         this.conversations = response.data;
+
+                        this.conversations.forEach(function (e) {
+                            if (!e.to_user && !e.from_user) {
+                                e.user = null;
+                            } else if (e.to_user.id !== this.user.id) {
+                                e.user = e.to_user;
+                            } else if (e.from_user.id !== this.user.id) {
+                                e.user = e.from_user;
+                            }
+                        }, this);
                     })
                     .catch((error) => {
                         console.log(error);
                     });
             },
-            getConversationName(conversation) {
-                    if (conversation.name)
-                        return conversation.name;
-                    else if (conversation.to_user)
-                        return conversation.to_user.first_name + ' ' + conversation.to_user.last_name;
-                    else
-                        return 'No name';
-
-            },
+//            getConversationUser(conversation) {
+//                    if (conversation.type === 'public')
+//                        return null;
+//
+//                    if (conversation.to_user.id !== this.user.id)
+//                        return conversation.to_user;
+//                    else if (conversation.from_user.id !== this.user.id)
+//                        return conversation.to_user;
+//                    else
+//                        return null;
+//            },
             addNewConversation(conversation) {
                 this.conversations.unshift(conversation);
             },
@@ -75,5 +88,6 @@
                 Vue.prototype.$eventBus.$emit('conversationSelected', conversation);
             }
         },
+        props: ['user']
     }
 </script>

@@ -26,11 +26,13 @@
                                         <p>
                                             <strong>{{ $friend->getUser()->getFullName() }}</strong>
                                             <br>
-                                            <small>{{ $friend->getUser()->getUserName() }}</small>
-                                            <small>31m</small>
+                                            <small>@username($friend->getUser()->getUserName())</small>
+                                            <br>
+                                            <small>Last seen: {{ $friend->getUser()->getLastLogin() }}</small>
                                         </p>
                                         <p>
-                                            <a class="button is-link"><span class="icon is-small"><i class="fa fa-comments-o"></i></span>
+                                            <a class="button is-link"><span class="icon is-small"><i
+                                                            class="fa fa-comments-o"></i></span>
                                                 <span>Start conversation</span>
                                             </a>
                                         </p>
@@ -72,8 +74,8 @@
                                         <p>
                                             <strong>{{ $friendRequest->getFromUser()->getFullName() }}</strong>
                                             <br>
-                                            <small>{{ $friendRequest->getFromUser()->getUserName() }}</small>
-                                            <small>31m</small>
+                                            <small>@username($friendRequest->getFromUser()->getUserName())</small>
+                                            <small>{{ $friendRequest->getFromUser()->getLastLogin() }}</small>
                                         </p>
                                         <p>
                                             <confirm-request id="{{ $friendRequest->getId() }}"></confirm-request>
@@ -116,7 +118,7 @@
                                         <p>
                                             <strong>{{ $outgoingRequest->getToUser()->getFullName() }}</strong>
                                             <br>
-                                            <small>{{ $outgoingRequest->getToUser()->getUserName() }}</small>
+                                            <small>@username($outgoingRequest->getToUser()->getUserName())</small>
                                             <small>31m</small>
                                         </p>
                                         <p>

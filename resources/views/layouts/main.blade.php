@@ -20,7 +20,7 @@
 <div class="columns" id="app">
    @include('partials.left')
 
-    <div class="container" style="margin-top:40px;">
+    <div class="container is-fluid" style="margin-top:40px;">
         @yield('content')
      </div>
 
