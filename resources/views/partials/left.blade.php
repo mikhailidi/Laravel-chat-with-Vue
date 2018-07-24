@@ -6,7 +6,6 @@
             <a href="{{ route('profile.index') }}" class="item {{ Nav::isRoute('profile.index') }}"><span class="icon"><i class="fa fa-user"></i></span><span class="name">Profile</span></a>
             <a href="{{ route('friends.index') }}" class="item {{ Nav::isRoute('friends.index') }}"><span class="icon"><i class="fa fa-group"></i></span><span class="name">Friends</span></a>
             <a href="{{ route('users.all') }}" class="item {{ Nav::isRoute('users.all') }}"><span class="icon"><i class="fa fa-group"></i></span><span class="name">Users</span></a>
-            <a href="#" class="item"><span class="icon"><i class="fa fa-cog"></i></span><span class="name">Settings</span></a>
         </div>
     </div>
 </aside>
